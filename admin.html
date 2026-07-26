@@ -118,6 +118,7 @@
                 <th style="padding: 12px 16px; text-align: center;">권한 (Role)</th>
                 <th style="padding: 12px 16px; text-align: center;">가입 일자</th>
                 <th style="padding: 12px 16px; text-align: center;">상태</th>
+                <th style="padding: 12px 16px; text-align: center;">관리</th>
               </tr>
             </thead>
             <tbody id="adminUsersTbody">
@@ -266,6 +267,15 @@
             </td>
             <td style="padding: 12px 16px; text-align: center; color: #64748b; font-size: 0.85rem;">${u.created_at || '2026-07-26'}</td>
             <td style="padding: 12px 16px; text-align: center; color: #10b981; font-weight: 700;">정상</td>
+            <td style="padding: 12px 16px; text-align: center;">
+              ${u.role === 'admin' ? `
+                <span style="color: #64748b; font-size: 0.8rem;">보호됨</span>
+              ` : `
+                <button onclick="adminDeleteUser('${u.email}')" style="background: rgba(239, 68, 68, 0.2); border: 1px solid rgba(239, 68, 68, 0.4); color: #ef4444; padding: 4px 10px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: 600;">
+                  <i class="fa-solid fa-user-xmark"></i> 삭제
+                </button>
+              `}
+            </td>
           </tr>
         `).join('');
       }
@@ -292,6 +302,21 @@
           </tr>
         `).join('');
       }
+    }
+
+    function adminDeleteUser(email) {
+      if (!confirm(`'${email}' 회원을 정말 삭제(강퇴)하시겠습니까?`)) return;
+      const users = getUsers();
+      const filtered = users.filter(u => u.email !== email);
+      saveUsers(filtered);
+      
+      const current = getCurrentUser();
+      if (current && current.email === email) {
+        setCurrentUser(null);
+      }
+      
+      renderAdminDashboard();
+      if (window.showToast) window.showToast(`'${email}' 회원이 삭제되었습니다.`, 'info');
     }
 
     function adminDeletePost(id) {
