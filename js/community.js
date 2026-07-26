@@ -328,12 +328,61 @@ function openCreatePostModal() {
   }
 }
 
+// Non-blocking Toast UI Notification Engine (Prevents INP Main-Thread Blocking)
+function showToast(message, type = 'success') {
+  let container = document.getElementById('toastContainer');
+  if (!container) {
+    container = document.createElement('div');
+    container.id = 'toastContainer';
+    container.style.cssText = 'position:fixed; top:24px; right:24px; z-index:99999; display:flex; flex-direction:column; gap:10px; pointer-events:none;';
+    document.body.appendChild(container);
+  }
+
+  const toast = document.createElement('div');
+  const bgColor = type === 'error' ? 'rgba(239, 68, 68, 0.95)' : 'rgba(16, 185, 129, 0.95)';
+  const icon = type === 'error' ? 'fa-triangle-exclamation' : 'fa-circle-check';
+  
+  toast.style.cssText = `
+    background: ${bgColor};
+    color: #ffffff;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-size: 0.92rem;
+    font-weight: 600;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    backdrop-filter: blur(8px);
+    transform: translateY(-20px);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: auto;
+  `;
+  
+  toast.innerHTML = `<i class="fa-solid ${icon}"></i> <span>${escapeHtml(message)}</span>`;
+  container.appendChild(toast);
+
+  requestAnimationFrame(() => {
+    toast.style.transform = 'translateY(0)';
+    toast.style.opacity = '1';
+  });
+
+  setTimeout(() => {
+    toast.style.transform = 'translateY(-20px)';
+    toast.style.opacity = '0';
+    setTimeout(() => toast.remove(), 300);
+  }, 3000);
+}
+
+window.showToast = showToast;
+
 function closeCreatePostModal() {
   const modal = document.getElementById('createPostModal');
   if (modal) modal.classList.remove('active');
 }
 
-// Submit New Post
+// Submit New Post (Asynchronous non-blocking UI update for zero INP lag)
 function handleCreatePostSubmit(e) {
   e.preventDefault();
   const category = document.getElementById('postCategory').value;
@@ -344,7 +393,7 @@ function handleCreatePostSubmit(e) {
   const content = document.getElementById('postContent').value.trim();
 
   if (!title || !content) {
-    alert('제목과 내용을 입력해주세요.');
+    showToast('제목과 내용을 입력해주세요.', 'error');
     return;
   }
 
@@ -370,8 +419,12 @@ function handleCreatePostSubmit(e) {
 
   closeCreatePostModal();
   currentPage = 1;
-  renderCommunityBoard();
-  alert('게시글이 성공적으로 등록되었습니다!');
+
+  // Render async to avoid main-thread blocking during event dispatch
+  requestAnimationFrame(() => {
+    renderCommunityBoard();
+    showToast('게시글이 성공적으로 등록되었습니다!', 'success');
+  });
 }
 
 // 6. View Post Detail Modal
@@ -397,7 +450,9 @@ function viewPostDetail(postId) {
     modal.classList.add('active');
   }
 
-  renderCommunityBoard();
+  requestAnimationFrame(() => {
+    renderCommunityBoard();
+  });
 }
 
 function closeViewPostModal() {
@@ -414,7 +469,9 @@ function likeCurrentPost() {
     post.likes = (post.likes || 0) + 1;
     savePosts(posts);
     document.getElementById('viewPostLikes').textContent = post.likes;
-    renderCommunityBoard();
+    requestAnimationFrame(() => {
+      renderCommunityBoard();
+    });
   }
 }
 
@@ -429,14 +486,16 @@ function deleteCurrentPost() {
   if (postIndex !== -1) {
     const post = posts[postIndex];
     if (post.password && post.password !== inputPw && inputPw !== 'admin') {
-      alert('비밀번호가 일치하지 않습니다.');
+      showToast('비밀번호가 일치하지 않습니다.', 'error');
       return;
     }
     posts.splice(postIndex, 1);
     savePosts(posts);
     closeViewPostModal();
-    renderCommunityBoard();
-    alert('게시글이 삭제되었습니다.');
+    requestAnimationFrame(() => {
+      renderCommunityBoard();
+      showToast('게시글이 삭제되었습니다.', 'info');
+    });
   }
 }
 

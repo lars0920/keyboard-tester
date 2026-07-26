@@ -212,7 +212,11 @@ function handleFormSubmit(event) {
   const address = document.getElementById('userAddress').value;
 
   if (!name || !phone || !address) {
-    alert('필수 입력 항목을 모두 작성해주세요.');
+    if (typeof window.showToast === 'function') {
+      window.showToast('필수 입력 항목을 모두 작성해주세요.', 'error');
+    } else {
+      console.warn('필수 입력 항목 미작성');
+    }
     return;
   }
 
