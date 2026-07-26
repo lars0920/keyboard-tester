@@ -316,12 +316,25 @@ function getCategoryClass(cat) {
   }
 }
 
-// 5. Open Post Creation Modal
+// 5. Open Post Creation Modal (Auto-fill logged-in user nickname)
 function openCreatePostModal() {
   const modal = document.getElementById('createPostModal');
   if (modal) {
     modal.classList.add('active');
-    document.getElementById('postAuthor').value = '익명';
+    
+    let defaultAuthor = '익명';
+    if (typeof getCurrentUser === 'function') {
+      const user = getCurrentUser();
+      if (user && user.name) {
+        defaultAuthor = user.name;
+      }
+    }
+    
+    const authorEl = document.getElementById('postAuthor');
+    if (authorEl) {
+      authorEl.value = defaultAuthor;
+    }
+
     document.getElementById('postTitle').value = '';
     document.getElementById('postContent').value = '';
     document.getElementById('postPassword').value = '';
