@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AURA 75 | 커스텀 기계식 키보드의 완성</title>
+  <meta name="description" content="손끝에서 완성되는 완벽한 타건감, 당신만의 데스크테리어 AURA 75 커스텀 기계식 키보드. 풀 알루미늄 CNC, 3중 흡음 가스켓 마운트.">
+  
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="dark-mode">
+
+  <!-- TOP ANNOUNCEMENT BAR (NO EXTERNAL LINKS / NO GNB) -->
+  <div class="top-announcement">
+    <div class="announcement-content">
+      <span class="badge-flash"><i class="fa-solid fa-bolt"></i> 오늘 단 하루</span>
+      <span class="announcement-text">론칭 <strong>18% 특별 할인</strong> + 전 제품 <strong>무료배송 & 30일 무상체험</strong></span>
+      <div class="countdown-timer" id="countdownTimer">
+        <span><strong id="hours">08</strong>시간</span> :
+        <span><strong id="minutes">42</strong>분</span> :
+        <span><strong id="seconds">19</strong>초</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN HEADER - ONLY BRAND LOGO & DIRECT CTA -->
+  <header class="minimal-header">
+    <div class="header-container">
+      <a href="index.html" class="brand-logo" style="text-decoration:none;">
+        <span class="logo-mark">⚡</span>
+        <span class="logo-text">AURA <span>75</span></span>
+        <span class="logo-tag">PRO CUSTOM</span>
+      </a>
+
+      <nav class="community-nav-bar">
+        <a href="index.html" class="nav-item active"><i class="fa-solid fa-house"></i> 메인 홈</a>
+        <a href="#sound-test" class="nav-item"><i class="fa-solid fa-volume-high"></i> 타건음 체험</a>
+        <a href="#configurator" class="nav-item"><i class="fa-solid fa-sliders"></i> 커스텀 빌더</a>
+        <a href="community.html" class="nav-item"><i class="fa-solid fa-comments"></i> 자유게시판</a>
+      </nav>
+
+      <div class="header-right">
+        <a href="#configurator" class="btn-header-cta">
+          <i class="fa-solid fa-wand-magic-sparkles"></i> 커스텀 시작
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO SECTION (ABOVE-THE-FOLD) -->
+  <section class="hero-section" id="hero">
+    <div class="hero-container">
+      
+      <!-- HERO TEXT COLUMN -->
+      <div class="hero-text-content">
+        <div class="hero-badge">
+          <span class="pulse-dot"></span> 2026 하이엔드 키보드 1위
+        </div>
+        <h1 class="hero-title">
+          손끝에서 완성되는 <br>
+          <span class="text-gradient">완벽한 타건감과 음향</span>
+        </h1>
+        <p class="hero-subtitle">
+          풀 알루미늄 CNC, 3중 가스켓, 핫스왑 지원.<br>
+          완벽히 튜닝된 최상의 타건감을 그대로 직배송합니다.
+        </p>
+
+        <!-- 3-BULLET OUTCOMES -->
+        <div class="hero-outcomes">
+          <div class="outcome-item">
+            <div class="outcome-icon"><i class="fa-solid fa-circle-check"></i></div>
+            <div class="outcome-text">
+              <strong>Deep & Thocky 사운드</strong>
+              <span>5중 흡음 구조의 정갈하고 묵직한 울림</span>
+            </div>
+          </div>
+          <div class="outcome-item">
+            <div class="outcome-icon"><i class="fa-solid fa-circle-check"></i></div>
+            <div class="outcome-text">
+              <strong>CNC 풀 알루미늄</strong>
+              <span>2.1kg 묵직한 중량의 단단한 타건감</span>
+            </div>
+          </div>
+          <div class="outcome-item">
+            <div class="outcome-icon"><i class="fa-solid fa-circle-check"></i></div>
+            <div class="outcome-text">
+              <strong>Tri-Mode 초고속 연결</strong>
+              <span>무선 2.4G / BT 5.2 / 유선 1,000Hz</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- HERO QUICK SOCIAL PROOF & CTA -->
+        <div class="hero-cta-group">
+          <div class="price-display-hero">
+            <span class="original-price">₩349,000</span>
+            <span class="current-price">₩285,000</span>
+            <span class="discount-badge">18% OFF</span>
+          </div>
+          <div class="hero-actions">
+            <button class="btn-primary-glow btn-scroll-to-buy" onclick="scrollToConfigurator()">
+              <span>커스텀 시작하기</span>
+              <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
+          
+          <!-- PROXIMITY RISK REVERSAL BADGES -->
+          <div class="hero-trust-badges">
+            <span><i class="fa-solid fa-shield-halved"></i> 30일 무상 반품</span>
+            <span><i class="fa-solid fa-truck-fast"></i> 당일 무료 발송</span>
+            <span><i class="fa-solid fa-award"></i> 2년 품질 보증</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- HERO VISUAL COLUMN -->
+      <div class="hero-visual-column">
+        <div class="canvas-3d-wrapper">
+          
+          <!-- STUDIO KEYBOARD VIDEO PLAYER WITH MUSIC -->
+          <video id="heroVideoPlayer" class="hero-video-element active" autoplay loop muted playsinline style="display:block;">
+            <source src="Happy_Hacking_keyboard_studio_shot_202607222007.mp4" type="video/mp4">
+            브라우저가 비디오 태그를 지원하지 않습니다.
+          </video>
+
+          <!-- OVERLAY SOUND TOGGLE BUTTON -->
+          <div class="canvas-controls-overlay">
+            <button class="btn-control-chip sound-toggle-chip" id="btnVideoSoundToggle" onclick="toggleVideoSound()">
+              <i class="fa-solid fa-volume-xmark" id="videoSoundIcon"></i>
+              <span id="videoSoundText">음악 켜기</span>
+            </button>
+          </div>
+
+          <div class="canvas-drag-hint" id="mediaHintText">
+            <i class="fa-solid fa-music"></i> 실사 영상 & 타건음
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- INTERACTIVE ACOUSTIC SOUND TEST PLAYER SECTION -->
+  <section class="sound-test-section" id="sound-test">
+    <div class="section-container">
+      <div class="section-header center">
+        <div class="section-tag">SOUND EXPERIENCE</div>
+        <h2 class="section-title">스위치별 <span class="text-gradient">타건음 체험</span></h2>
+        <p class="section-desc">이어폰 착용 시 실제 타건음과 가장 유사하게 들으실 수 있습니다.</p>
+      </div>
+
+      <div class="sound-player-card">
+        <!-- Switch Select Tabs -->
+        <div class="switch-tabs">
+          <button class="switch-tab active" data-switch="creamy" onclick="selectSoundSwitch('creamy')">
+            <span class="swatch switch-cream"></span>
+            <div class="tab-info">
+              <strong>Creamy Linear</strong>
+              <span>부드러운 조약돌 타건음</span>
+            </div>
+          </button>
+
+          <button class="switch-tab" data-switch="thocky" onclick="selectSoundSwitch('thocky')">
+            <span class="swatch switch-thock"></span>
+            <div class="tab-info">
+              <strong>Thocky Tactile</strong>
+              <span>명확한 도각도각 구분감</span>
+            </div>
+          </button>
+
+          <button class="switch-tab" data-switch="silent" onclick="selectSoundSwitch('silent')">
+            <span class="swatch switch-silent"></span>
+            <div class="tab-info">
+              <strong>Silent Linear</strong>
+              <span>사무실용 극저소음</span>
+            </div>
+          </button>
+        </div>
+
+        <!-- Audio Player & Visualizer Canvas -->
+        <div class="sound-visualizer-container">
+          <canvas id="waveformCanvas" width="700" height="120"></canvas>
+
+          <div class="sound-player-controls">
+            <button class="btn-play-sound" id="btnPlaySound" onclick="togglePlaySound()">
+              <i class="fa-solid fa-play" id="playIcon"></i>
+            </button>
+            <div class="sound-playing-status">
+              <span id="currentSwitchName">Creamy Linear (리니어)</span>
+              <small id="currentSwitchDesc">소리 샘플 재생 중...</small>
+            </div>
+            <div class="sound-volume">
+              <i class="fa-solid fa-volume-high"></i>
+              <input type="range" id="volumeSlider" min="0" max="1" step="0.05" value="0.8" oninput="setAudioVolume(this.value)">
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- INTERACTIVE CONFIGURATOR & OPTION SELECTION (MAIN BUY BOX) -->
+  <section class="configurator-section" id="configurator">
+    <div class="section-container">
+      
+      <div class="section-header">
+        <div class="section-tag">CUSTOM BUILDER</div>
+        <h2 class="section-title">나만의 <span class="text-gradient">AURA 75 커스텀</span></h2>
+        <p class="section-desc">원하는 옵션을 선택하여 나만의 키보드를 완성하세요.</p>
+      </div>
+
+      <div class="configurator-grid">
+        
+        <!-- OPTIONS SELECTOR PANEL -->
+        <div class="options-panel">
+          
+          <!-- OPTION 1: CASE COLOR -->
+          <div class="option-group">
+            <div class="option-label">
+              <span>1. 하우징 컬러</span>
+              <strong id="selectedCaseLabel">미드나잇 블랙</strong>
+            </div>
+            <div class="option-chips-grid">
+              <div class="option-chip active" data-group="case" data-value="black" data-name="미드나잇 블랙" data-hex="#1e293b" onclick="selectOption('case', 'black', this)">
+                <span class="color-dot" style="background:#1e293b;"></span>
+                <span>미드나잇 블랙</span>
+              </div>
+              <div class="option-chip" data-group="case" data-value="silver" data-name="문라이트 실버" data-hex="#e2e8f0" onclick="selectOption('case', 'silver', this)">
+                <span class="color-dot" style="background:#cbd5e1;"></span>
+                <span>문라이트 실버</span>
+              </div>
+              <div class="option-chip" data-group="case" data-value="purple" data-name="딥 퍼플" data-hex="#581c87" onclick="selectOption('case', 'purple', this)">
+                <span class="color-dot" style="background:#6b21a8;"></span>
+                <span>딥 퍼플</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- OPTION 2: PLATE MATERIAL -->
+          <div class="option-group">
+            <div class="option-label">
+              <span>2. 보강판 (타건감)</span>
+              <strong id="selectedPlateLabel">황동 (Brass)</strong>
+            </div>
+            <div class="option-chips-grid">
+              <div class="option-chip active" data-group="plate" data-value="brass" data-name="황동 (Brass)" onclick="selectOption('plate', 'brass', this)">
+                <i class="fa-solid fa-gem text-gold"></i>
+                <div>
+                  <strong>황동 (Brass)</strong>
+                  <small>단단하고 선명한 음향 (+₩20,000)</small>
+                </div>
+              </div>
+              <div class="option-chip" data-group="plate" data-value="pc" data-name="폴리카보네이트 (PC)" onclick="selectOption('plate', 'pc', this)">
+                <i class="fa-solid fa-feather text-blue"></i>
+                <div>
+                  <strong>폴리카보네이트 (PC)</strong>
+                  <small>푹신하고 뽀송한 타건감</small>
+                </div>
+              </div>
+              <div class="option-chip" data-group="plate" data-value="fr4" data-name="FR4 (플렉스컷)" onclick="selectOption('plate', 'fr4', this)">
+                <i class="fa-solid fa-microchip text-emerald"></i>
+                <div>
+                  <strong>FR4 (플렉스컷)</strong>
+                  <small>균형 잡힌 깔끔한 울림</small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- OPTION 3: SWITCH TYPE -->
+          <div class="option-group">
+            <div class="option-label">
+              <span>3. 스위치</span>
+              <strong id="selectedSwitchLabel">Creamy Linear (45g)</strong>
+            </div>
+            <div class="option-chips-grid">
+              <div class="option-chip active" data-group="switch" data-value="creamy" data-name="Creamy Linear" onclick="selectOption('switch', 'creamy', this)">
+                <span class="swatch switch-cream"></span>
+                <div>
+                  <strong>Creamy Linear</strong>
+                  <small>부드러운 조약돌 sound</small>
+                </div>
+              </div>
+              <div class="option-chip" data-group="switch" data-value="thocky" data-name="Thocky Tactile" onclick="selectOption('switch', 'thocky', this)">
+                <span class="swatch switch-thock"></span>
+                <div>
+                  <strong>Thocky Tactile</strong>
+                  <small>도각도각 구분감</small>
+                </div>
+              </div>
+              <div class="option-chip" data-group="switch" data-value="silent" data-name="Silent Linear" onclick="selectOption('switch', 'silent', this)">
+                <span class="swatch switch-silent"></span>
+                <div>
+                  <strong>Silent Linear</strong>
+                  <small>사무실용 극저소음</small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- OPTION 4: KEYCAP THEME -->
+          <div class="option-group">
+            <div class="option-label">
+              <span>4. PBT 키캡</span>
+              <strong id="selectedKeycapLabel">사이버펑크 다크 PBT</strong>
+            </div>
+            <div class="option-chips-grid">
+              <div class="option-chip active" data-group="keycap" data-value="cyber" data-name="사이버펑크 다크 PBT" onclick="selectOption('keycap', 'cyber', this)">
+                <span class="keycap-preview keycap-cyber"></span>
+                <span>사이버펑크 다크</span>
+              </div>
+              <div class="option-chip" data-group="keycap" data-value="retro" data-name="레트로 크림 PBT" onclick="selectOption('keycap', 'retro', this)">
+                <span class="keycap-preview keycap-retro"></span>
+                <span>레트로 크림</span>
+              </div>
+              <div class="option-chip" data-group="keycap" data-value="minimal" data-name="미니멀 올블랙 PBT" onclick="selectOption('keycap', 'minimal', this)">
+                <span class="keycap-preview keycap-minimal"></span>
+                <span>미니멀 올블랙</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- BUY BOX SUMMARY CARD -->
+        <div class="buy-summary-card">
+          
+          <div class="summary-header">
+            <div class="summary-title">선택한 구성 요약</div>
+            <div class="summary-sku">SKU: AURA75-PRO</div>
+          </div>
+
+          <div class="summary-list">
+            <div class="summary-row">
+              <span>하우징:</span>
+              <strong id="sumCase">미드나잇 블랙</strong>
+            </div>
+            <div class="summary-row">
+              <span>보강판:</span>
+              <strong id="sumPlate">황동 (Brass) (+₩20,000)</strong>
+            </div>
+            <div class="summary-row">
+              <span>스위치:</span>
+              <strong id="sumSwitch">Creamy Linear</strong>
+            </div>
+            <div class="summary-row">
+              <span>키캡:</span>
+              <strong id="sumKeycap">사이버펑크 다크 PBT</strong>
+            </div>
+            <div class="summary-row highlight">
+              <span>기본 혜택:</span>
+              <strong class="text-emerald"><i class="fa-solid fa-gift"></i> 전용 알루미늄 팜레스트 증정</strong>
+            </div>
+          </div>
+
+          <!-- PROXIMITY HIGH-CONVERTING REVIEWS -->
+          <div class="proximity-social-proof">
+            <div class="rating-stars">
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <strong>5.0 / 5.0</strong>
+            </div>
+            <blockquote class="featured-review">
+              "잡소리 전혀 없고 타건감이 미쳤습니다. 폼 튜닝 완벽해요!"
+              <cite>- IT 개발자 박*우 님</cite>
+            </blockquote>
+          </div>
+
+          <!-- PRICE CALCULATION DISPLAY -->
+          <div class="summary-price-box">
+            <div class="price-line">
+              <span>정가</span>
+              <del id="summaryOriginalPrice">₩369,000</del>
+            </div>
+            <div class="price-line main">
+              <span>할인 적용가</span>
+              <strong id="summaryTotalPrice">₩305,000</strong>
+            </div>
+            <div class="savings-tag">
+              <i class="fa-solid fa-piggy-bank"></i> 오늘 구매 시 <strong>₩64,000 할인</strong>
+            </div>
+          </div>
+
+          <!-- CTA BUTTON -->
+          <button class="btn-primary-glow btn-checkout-trigger" onclick="openCheckoutModal()">
+            <span>구매하기</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </button>
+
+          <!-- RISK REVERSAL BADGES -->
+          <div class="risk-reversal-box">
+            <div class="rr-item">
+              <i class="fa-solid fa-rotate-left"></i>
+              <span><strong>30일 무상 반품</strong><br>100% 환불 보장</span>
+            </div>
+            <div class="rr-item">
+              <i class="fa-solid fa-truck-fast"></i>
+              <span><strong>당일 무료 발송</strong><br>오후 3시 전 주문 시</span>
+            </div>
+            <div class="rr-item">
+              <i class="fa-solid fa-lock"></i>
+              <span><strong>안심 보안 결제</strong><br>256-bit SSL</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ACOUSTIC LAYER BREAKDOWN & EXPLOED ANATOMY SECTION -->
+  <section class="anatomy-section">
+    <div class="section-container">
+      
+      <div class="section-header center">
+        <div class="section-tag">5-LAYER ACOUSTICS</div>
+        <h2 class="section-title">소리의 깊이를 만드는 <span class="text-gradient">5중 흡음 구조</span></h2>
+        <p class="section-desc">통울림과 잡소리를 완벽하게 차단합니다.</p>
+      </div>
+
+      <div class="anatomy-grid">
+        <div class="anatomy-card">
+          <div class="anatomy-number">01</div>
+          <h3>CNC 알루미늄 상판</h3>
+          <p>6063 항공기 등급 알루미늄 CNC 정밀 가공으로 매끄러운 질감과 내구성 제공.</p>
+        </div>
+        <div class="anatomy-card">
+          <div class="anatomy-number">02</div>
+          <h3>PORON 보강판 흡음재</h3>
+          <p>3.5mm 고밀도 PORON 폼으로 스위치와 보강판 사이 미세 진동 완벽 흡수.</p>
+        </div>
+        <div class="anatomy-card">
+          <div class="anatomy-number">03</div>
+          <h3>IXPE 스위치 패드</h3>
+          <p>고음역대 쇠소리를 차단하여 뽀송하고 정갈한 타건음 구현.</p>
+        </div>
+        <div class="anatomy-card">
+          <div class="anatomy-number">04</div>
+          <h3>PET 음향 필름</h3>
+          <p>PCB 밀착 필름으로 타건 울림을 한층 더 묵직하게 증폭.</p>
+        </div>
+        <div class="anatomy-card">
+          <div class="anatomy-number">05</div>
+          <h3>하판 실리콘 패드</h3>
+          <p>하단 빈 공간을 채우는 특수 실리콘 패드로 통울림 0% 달성.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- TECHNICAL SPECIFICATIONS TABLE -->
+  <section class="specs-section">
+    <div class="section-container">
+      <div class="section-header center">
+        <div class="section-tag">TECHNICAL SPECIFICATIONS</div>
+        <h2 class="section-title">AURA 75 <span class="text-gradient">상세 제원</span></h2>
+      </div>
+
+      <div class="specs-table-wrapper">
+        <table class="specs-table">
+          <tbody>
+            <tr>
+              <th>배열</th>
+              <td>75% 콤팩트 (82키) + 알루미늄 노브</td>
+            </tr>
+            <tr>
+              <th>마운트</th>
+              <td>Flex-cut PCB Gasket Mount (PORON 가스켓)</td>
+            </tr>
+            <tr>
+              <th>하우징</th>
+              <td>6063 CNC 풀 알루미늄 (아노다이징)</td>
+            </tr>
+            <tr>
+              <th>연결</th>
+              <td>Tri-Mode (2.4G 무선 / BT 5.2 / C-type 유선)</td>
+            </tr>
+            <tr>
+              <th>폴링레이트</th>
+              <td>1,000Hz (유선 / 2.4G 무선)</td>
+            </tr>
+            <tr>
+              <th>배터리</th>
+              <td>8,000mAh (최대 420시간 연속 사용)</td>
+            </tr>
+            <tr>
+              <th>보강판</th>
+              <td>황동 (Brass) / PC / FR4 선택</td>
+            </tr>
+            <tr>
+              <th>키캡</th>
+              <td>체리 프로파일 이중사열 PBT</td>
+            </tr>
+            <tr>
+              <th>무게</th>
+              <td>약 2,150g (실측)</td>
+            </tr>
+            <tr>
+              <th>구성품</th>
+              <td>본체, C타입 케이블, 2-in-1 리무버, 예비 스위치 3개, 알루미늄 팜레스트</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ SECTION -->
+  <section class="faq-section">
+    <div class="section-container">
+      <div class="section-header center">
+        <div class="section-tag">FREQUENTLY ASKED QUESTIONS</div>
+        <h2 class="section-title">자주 묻는 <span class="text-gradient">질문</span></h2>
+      </div>
+
+      <div class="faq-accordion">
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span>Q. 초보자도 바로 사용할 수 있나요?</span>
+            <i class="fa-solid fa-chevron-down"></i>
+          </button>
+          <div class="faq-answer">
+            <p>네! 완벽히 윤활 및 튜닝된 완성품으로 배송되어 연결 즉시 바로 사용할 수 있습니다.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span>Q. 스위치 직접 교체(핫스왑)가 가능한가요?</span>
+            <i class="fa-solid fa-chevron-down"></i>
+          </button>
+          <div class="faq-answer">
+            <p>네! 핫스왑 소켓이 적용되어 납땜 없이 동봉된 리무버로 손쉽게 스위치를 교체할 수 있습니다.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span>Q. 30일 무상 반품 조건은 어떻게 되나요?</span>
+            <i class="fa-solid fa-chevron-down"></i>
+          </button>
+          <div class="faq-answer">
+            <p>수령 후 30일간 사용해보시고 마음에 들지 않으면 반품 배송비까지 100% 무료로 환불해 드립니다.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION DIVIDER -->
+  <div class="section-divider-glow"></div>
+
+  <!-- FINAL HIGH-CONVERTING POWER CTA SECTION -->
+  <section class="final-cta-section" id="final-cta">
+    <div class="section-container">
+      <div class="final-cta-card">
+        <!-- Glowing Ambient Background Effects -->
+        <div class="cta-glow-bg"></div>
+        <div class="cta-glow-bg-secondary"></div>
+        
+        <div class="final-cta-content">
+          <div class="cta-badge">
+            <i class="fa-solid fa-bolt text-gold"></i> 오늘 단 하루 특별 혜택 론칭 이벤트
+          </div>
+
+          <h2 class="cta-title">
+            당신의 데스크를 바꿀 <br>
+            <span class="text-gradient">단 하나의 커스텀 키보드</span>
+          </h2>
+
+          <p class="cta-subtitle">
+            망설이는 순간 오늘 준비된 수량이 소진될 수 있습니다.<br>
+            30일간 무료로 직접 체험해보고 결정하세요.
+          </p>
+
+          <!-- VALUE PROPS BADGES GRID -->
+          <div class="cta-features-grid">
+            <div class="cta-feat-item">
+              <div class="feat-icon"><i class="fa-solid fa-gift"></i></div>
+              <div class="feat-info">
+                <strong>전용 알루미늄 팜레스트</strong>
+                <span>오늘 구매 시 무료 증정</span>
+              </div>
+            </div>
+            <div class="cta-feat-item">
+              <div class="feat-icon"><i class="fa-solid fa-truck-fast"></i></div>
+              <div class="feat-info">
+                <strong>오늘 주문 시 내일 도착</strong>
+                <span>전국 당일 무료 배송</span>
+              </div>
+            </div>
+            <div class="cta-feat-item">
+              <div class="feat-icon"><i class="fa-solid fa-rotate-left"></i></div>
+              <div class="feat-info">
+                <strong>30일 100% 무상 체험</strong>
+                <span>마음에 안 들면 무료 반품</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- PRICE & DUAL CTA BUTTONS -->
+          <div class="cta-action-box">
+            <div class="cta-price-header">
+              <span class="price-badge-tag"><i class="fa-solid fa-fire text-gold"></i> 론칭 18% 할인 혜택가</span>
+              <div class="price-display-main">
+                <del>₩349,000</del>
+                <strong class="current-price">₩285,000</strong>
+                <span class="price-save-badge">₩64,000 할인</span>
+              </div>
+            </div>
+
+            <div class="cta-buttons-wrapper">
+              <button class="btn-primary-glow btn-cta-main" onclick="scrollToConfigurator()">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                <span>나만의 AURA 75 맞춤 제작하기</span>
+                <i class="fa-solid fa-arrow-right"></i>
+              </button>
+              <button class="btn-secondary-glass btn-cta-quick" onclick="openCheckoutModal()">
+                <i class="fa-solid fa-bolt text-gold"></i>
+                <span>3초 만에 바로 결제하기</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- TRUST MICRO-PROOF FOOTNOTE -->
+          <div class="cta-trust-footnote">
+            <span class="trust-stars"><i class="fa-solid fa-star star-gold"></i> 4.95 / 5.0</span>
+            <span class="divider">•</span>
+            <span>2,480명 이상의 실구매 고객 검증</span>
+            <span class="divider">•</span>
+            <span><i class="fa-solid fa-lock text-emerald"></i> 256-bit SSL 안전 결제</span>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="minimal-footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <span class="logo-text">AURA 75</span>
+        <p>Premium Custom Mechanical Keyboards</p>
+      </div>
+      <div class="footer-info">
+        <p>© 2026 AURA Keyboards Inc. All rights reserved. | SSL 256-bit Encrypted Checkout</p>
+        <p>고객센터: 1588-0000 (평일 09:00 - 18:00) | 30일 100% 무상 반품 보증</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- STICKY BUY BOX -->
+  <div class="sticky-buy-box" id="stickyBuyBox">
+    <div class="sticky-container">
+      
+      <div class="sticky-product-info">
+        <div class="sticky-thumb" id="stickyThumbColor" style="background:#1e293b;"></div>
+        <div class="sticky-details">
+          <div class="sticky-name">AURA 75 Pro Custom</div>
+          <div class="sticky-options-summary" id="stickyOptionSummary">미드나잇 블랙 / 황동 / Creamy Linear</div>
+        </div>
+      </div>
+
+      <div class="sticky-price-group">
+        <div class="sticky-price-labels">
+          <del id="stickyOriginalPrice">₩369,000</del>
+          <strong id="stickyTotalPrice">₩305,000</strong>
+        </div>
+        <button class="btn-primary-glow btn-sticky-cta" onclick="openCheckoutModal()">
+          <span>지금 구매하고 혜택 받기</span>
+          <i class="fa-solid fa-bolt"></i>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- STREAMLINED CHECKOUT MODAL -->
+  <div class="modal-overlay" id="checkoutModal">
+    <div class="modal-card">
+      <button class="btn-modal-close" onclick="closeCheckoutModal()">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div class="modal-header">
+        <div class="modal-tag"><i class="fa-solid fa-shield-halved text-emerald"></i> SSL 256-bit 안전 결제</div>
+        <h2>주문 및 바로 결제</h2>
+        <p>3초 만에 주문 작성을 완료하고 30일 무상 체험 혜택을 받으세요.</p>
+      </div>
+
+      <div class="modal-order-summary">
+        <div class="order-item-title">
+          <strong>AURA 75 Custom Keyboard</strong>
+          <span class="order-price" id="modalTotalPrice">₩305,000</span>
+        </div>
+        <div class="order-options-tags" id="modalOptionsSummary">
+          <span class="badge-opt">블랙</span>
+          <span class="badge-opt">황동 보강판</span>
+          <span class="badge-opt">Creamy Linear</span>
+          <span class="badge-opt">사이버펑크 키캡</span>
+        </div>
+      </div>
+
+      <form class="checkout-form" id="checkoutForm" onsubmit="handleFormSubmit(event)">
+        <div class="form-group">
+          <label for="userName"><i class="fa-solid fa-user"></i> 수령인 성함 *</label>
+          <input type="text" id="userName" required placeholder="홍길동">
+        </div>
+
+        <div class="form-group">
+          <label for="userPhone"><i class="fa-solid fa-phone"></i> 연락처 (휴대폰) *</label>
+          <input type="tel" id="userPhone" required placeholder="010-1234-5678" pattern="[0-9]{3}-[0-9]{3,4}-[0-9]{4}">
+        </div>
+
+        <div class="form-group">
+          <label for="userAddress"><i class="fa-solid fa-location-dot"></i> 배송지 주소 *</label>
+          <input type="text" id="userAddress" required placeholder="서울특별시 강남구 테헤란로 123 4층">
+        </div>
+
+        <div class="form-group">
+          <label><i class="fa-solid fa-credit-card"></i> 결제 수단 선택 *</label>
+          <div class="payment-methods-grid">
+            <label class="pay-method-chip active">
+              <input type="radio" name="payMethod" value="kakaopay" checked>
+              <span class="pay-icon yellow">카카오페이</span>
+            </label>
+            <label class="pay-method-chip">
+              <input type="radio" name="payMethod" value="tospay">
+              <span class="pay-icon blue">토스페이</span>
+            </label>
+            <label class="pay-method-chip">
+              <input type="radio" name="payMethod" value="card">
+              <span class="pay-icon dark">신용/체크카드</span>
+            </label>
+            <label class="pay-method-chip">
+              <input type="radio" name="payMethod" value="naverpay">
+              <span class="pay-icon green">네이버페이</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="checkout-reassurance">
+          <i class="fa-solid fa-truck-ramp-box"></i> 오늘 주문 시 <strong>내일(목) 오전 도착 예정</strong> (무료배송)
+        </div>
+
+        <button type="submit" class="btn-primary-glow btn-submit-order" id="btnSubmitOrder">
+          <span id="submitBtnText">₩305,000 결제하고 혜택 완료하기</span>
+          <i class="fa-solid fa-lock"></i>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ORDER SUCCESS MODAL -->
+  <div class="modal-overlay" id="successModal">
+    <div class="modal-card success-card">
+      <div class="success-icon-wrap">
+        <i class="fa-solid fa-circle-check"></i>
+      </div>
+      <h2>주문이 성공적으로 완료되었습니다!</h2>
+      <p class="success-msg">고객님의 AURA 75 커스텀 키보드가 튜닝 및 개별 검수를 거쳐 즉시 발송됩니다.</p>
+      
+      <div class="order-details-box">
+        <div class="detail-row">
+          <span>주문 번호:</span>
+          <strong id="successOrderNo">AUR-2026-88912</strong>
+        </div>
+        <div class="detail-row">
+          <span>예상 배송일:</span>
+          <strong class="text-emerald">내일 오전에 도착 예정 (CJ대한통운)</strong>
+        </div>
+        <div class="detail-row">
+          <span>무상 체험 기간:</span>
+          <strong>오늘부터 30일간 100% 무상 반품 가능</strong>
+        </div>
+      </div>
+
+      <button class="btn-primary-glow" onclick="closeSuccessModal()">
+        <span>확인 및 완료</span>
+      </button>
+    </div>
+  </div>
+
+
+
+  <!-- CREATE POST MODAL -->
+  <div class="modal-overlay" id="createPostModal">
+    <div class="modal-card">
+      <button class="btn-modal-close" onclick="closeCreatePostModal()">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div class="modal-header">
+        <div class="modal-tag"><i class="fa-solid fa-feather text-emerald"></i> 익명 게시글 작성</div>
+        <h2>자유게시판 글쓰기</h2>
+        <p>키보드와 관련된 이야기라면 무엇이든 자유롭게 나누어 보세요.</p>
+      </div>
+
+      <form class="post-form" id="createPostForm" onsubmit="handleCreatePostSubmit(event)">
+        <div class="form-row-grid">
+          <div class="form-group">
+            <label for="postAuthor"><i class="fa-solid fa-user"></i> 작성자 닉네임 *</label>
+            <input type="text" id="postAuthor" value="익명" placeholder="익명 또는 닉네임">
+          </div>
+          <div class="form-group">
+            <label for="postPassword"><i class="fa-solid fa-key"></i> 비밀번호 (글 삭제용) *</label>
+            <input type="password" id="postPassword" placeholder="숫자 4자리" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="postCategory"><i class="fa-solid fa-tag"></i> 카테고리 선택 *</label>
+          <select id="postCategory" required>
+            <option value="자유">자유</option>
+            <option value="타건후기">타건후기</option>
+            <option value="커스텀팁">커스텀팁</option>
+            <option value="질문">질문</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="postTitle"><i class="fa-solid fa-heading"></i> 게시글 제목 *</label>
+          <input type="text" id="postTitle" required placeholder="제목을 입력해 주세요.">
+        </div>
+
+        <div class="form-group">
+          <label for="postContent"><i class="fa-solid fa-align-left"></i> 게시글 내용 *</label>
+          <textarea id="postContent" rows="6" required placeholder="내용을 작성해 주세요."></textarea>
+        </div>
+
+        <button type="submit" class="btn-primary-glow btn-submit-post">
+          <span>게시글 등록하기</span>
+          <i class="fa-solid fa-paper-plane"></i>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- VIEW POST DETAIL MODAL -->
+  <div class="modal-overlay" id="viewPostModal">
+    <div class="modal-card modal-card-lg">
+      <button class="btn-modal-close" onclick="closeViewPostModal()">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div class="post-detail-header">
+        <div class="post-detail-meta">
+          <span class="badge-cat" id="viewPostCategory">자유</span>
+          <span class="post-detail-author"><i class="fa-solid fa-user-circle"></i> <strong id="viewPostAuthor">익명</strong></span>
+          <span class="post-detail-date"><i class="fa-solid fa-clock"></i> <span id="viewPostDate">2026-07-23</span></span>
+          <span class="post-detail-views"><i class="fa-solid fa-eye"></i> <span id="viewPostViews">0</span></span>
+        </div>
+        <h2 id="viewPostTitle">게시글 제목</h2>
+      </div>
+
+      <div class="post-detail-body" id="viewPostContent">
+        <!-- Body Text Loaded via JS -->
+      </div>
+
+      <div class="post-detail-actions">
+        <button class="btn-like-post" onclick="likeCurrentPost()">
+          <i class="fa-solid fa-heart text-pink"></i>
+          <span>추천하기 (<strong id="viewPostLikes">0</strong>)</span>
+        </button>
+        
+        <button class="btn-delete-post" onclick="deleteCurrentPost()">
+          <i class="fa-solid fa-trash-can"></i>
+          <span>삭제</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JS SCRIPTS -->
+  <script src="js/soundPlayer.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/community.js"></script>
+
+</body>
+</html>

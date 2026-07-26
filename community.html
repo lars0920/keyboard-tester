@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AURA 75 | 유저 커뮤니티 자유게시판</title>
+  <meta name="description" content="AURA 75 커스텀 기계식 키보드 공식 유저 커뮤니티. 타건 후기, 5중 흡음재 튜닝 팁, 자유로운 질문 및 정보 공유 공간입니다.">
+  
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/styles.css?v=20260724_v9">
+
+  <!-- INLINE CRITICAL LAYOUT STYLES FOR ABSOLUTE DESIGN GUARANTEE -->
+  <style>
+    body {
+      background-color: #0b0f17 !important;
+      color: #f8fafc !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+    }
+
+    .section-container {
+      max-width: 1280px !important;
+      margin: 0 auto !important;
+      padding: 0 20px !important;
+      box-sizing: border-box !important;
+      width: 100% !important;
+    }
+
+    .minimal-header {
+      position: sticky !important;
+      top: 0 !important;
+      z-index: 100 !important;
+      background: rgba(15, 23, 42, 0.95) !important;
+      backdrop-filter: blur(16px) !important;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+      padding: 14px 20px !important;
+    }
+
+    .header-container {
+      max-width: 1280px !important;
+      margin: 0 auto !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+    }
+
+    .community-nav-bar {
+      display: flex !important;
+      align-items: center !important;
+      gap: 16px !important;
+    }
+
+    .community-nav-bar .nav-item,
+    .community-nav-bar .nav-item:visited {
+      color: #94a3b8 !important;
+      text-decoration: none !important;
+      font-size: 0.9rem !important;
+      font-weight: 500 !important;
+      padding: 8px 16px !important;
+      border-radius: 8px !important;
+      transition: all 0.2s ease !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 6px !important;
+    }
+
+    .community-nav-bar .nav-item:hover,
+    .community-nav-bar .nav-item.active {
+      color: #10b981 !important;
+      background: rgba(16, 185, 129, 0.12) !important;
+    }
+
+    .community-hero-section {
+      padding: 60px 20px 45px !important;
+      background: radial-gradient(circle at 50% 0%, rgba(16, 185, 129, 0.15) 0%, #0b0f17 75%) !important;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+      text-align: center !important;
+    }
+
+    .community-hero-badge {
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 8px !important;
+      background: rgba(16, 185, 129, 0.12) !important;
+      border: 1px solid rgba(16, 185, 129, 0.3) !important;
+      color: #10b981 !important;
+      padding: 6px 16px !important;
+      border-radius: 30px !important;
+      font-size: 0.82rem !important;
+      font-weight: 700 !important;
+      margin-bottom: 18px !important;
+    }
+
+    .community-hero-title {
+      font-family: 'Outfit', sans-serif !important;
+      font-size: 2.8rem !important;
+      font-weight: 800 !important;
+      line-height: 1.25 !important;
+      margin: 0 0 14px !important;
+      color: #ffffff !important;
+    }
+
+    .community-hero-subtitle {
+      color: #94a3b8 !important;
+      font-size: 1.08rem !important;
+      line-height: 1.6 !important;
+      max-width: 680px !important;
+      margin: 0 auto 36px !important;
+    }
+
+    .community-stats-grid {
+      display: grid !important;
+      grid-template-columns: repeat(3, 1fr) !important;
+      gap: 20px !important;
+      max-width: 820px !important;
+      margin: 0 auto !important;
+    }
+
+    .stat-card {
+      background: #111520 !important;
+      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+      border-radius: 16px !important;
+      padding: 20px 24px !important;
+      display: flex !important;
+      align-items: center !important;
+      gap: 16px !important;
+      text-align: left !important;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
+    }
+
+    .stat-icon {
+      width: 46px !important;
+      height: 46px !important;
+      border-radius: 12px !important;
+      background: rgba(56, 189, 248, 0.15) !important;
+      color: #38bdf8 !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      font-size: 1.2rem !important;
+      flex-shrink: 0 !important;
+    }
+
+    .stat-icon.emerald {
+      background: rgba(16, 185, 129, 0.15) !important;
+      color: #10b981 !important;
+    }
+
+    .stat-icon.gold {
+      background: rgba(245, 158, 11, 0.15) !important;
+      color: #f59e0b !important;
+    }
+
+    .stat-info {
+      display: flex !important;
+      flex-direction: column !important;
+    }
+
+    .stat-info strong {
+      font-family: 'Outfit', sans-serif !important;
+      font-size: 1.3rem !important;
+      font-weight: 800 !important;
+      color: #ffffff !important;
+    }
+
+    .stat-info span {
+      font-size: 0.8rem !important;
+      color: #94a3b8 !important;
+    }
+
+    .community-board-section {
+      padding: 50px 20px 80px !important;
+      background: #0b0f17 !important;
+    }
+
+    .board-card-wrapper {
+      background: #111520 !important;
+      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+      border-radius: 24px !important;
+      padding: 32px !important;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6) !important;
+    }
+
+    .board-toolbar {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      gap: 20px !important;
+      margin-bottom: 24px !important;
+      flex-wrap: wrap !important;
+    }
+
+    .cat-filter-tabs {
+      display: flex !important;
+      align-items: center !important;
+      gap: 8px !important;
+      flex-wrap: wrap !important;
+    }
+
+    .cat-tab {
+      background: #1e293b !important;
+      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+      color: #94a3b8 !important;
+      padding: 10px 20px !important;
+      border-radius: 30px !important;
+      font-size: 0.88rem !important;
+      font-weight: 600 !important;
+      cursor: pointer !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 7px !important;
+      transition: all 0.25s ease !important;
+    }
+
+    .cat-tab:hover {
+      background: rgba(255, 255, 255, 0.1) !important;
+      color: #ffffff !important;
+    }
+
+    .cat-tab.active {
+      background: #10b981 !important;
+      border-color: #10b981 !important;
+      color: #000000 !important;
+      font-weight: 800 !important;
+      box-shadow: 0 0 16px rgba(16, 185, 129, 0.4) !important;
+    }
+
+    .board-search-group {
+      display: flex !important;
+      align-items: center !important;
+      gap: 12px !important;
+    }
+
+    .search-input-box {
+      position: relative !important;
+      width: 290px !important;
+    }
+
+    .search-input-box i {
+      position: absolute !important;
+      left: 14px !important;
+      top: 50% !important;
+      transform: translateY(-50%) !important;
+      color: #64748b !important;
+      font-size: 0.88rem !important;
+    }
+
+    .search-input-box input {
+      width: 100% !important;
+      background: #1e293b !important;
+      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+      border-radius: 24px !important;
+      padding: 10px 16px 10px 40px !important;
+      color: #ffffff !important;
+      font-size: 0.88rem !important;
+      outline: none !important;
+      box-sizing: border-box !important;
+    }
+
+    .board-table-responsive {
+      background: #0b0f17 !important;
+      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+      border-radius: 16px !important;
+      overflow: hidden !important;
+      margin-bottom: 24px !important;
+    }
+
+    .board-table {
+      width: 100% !important;
+      border-collapse: collapse !important;
+      text-align: left !important;
+    }
+
+    .board-table th {
+      background: rgba(15, 23, 42, 0.95) !important;
+      color: #94a3b8 !important;
+      font-weight: 600 !important;
+      font-size: 0.85rem !important;
+      padding: 16px 20px !important;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+    }
+
+    .board-table td {
+      padding: 16px 20px !important;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04) !important;
+      font-size: 0.92rem !important;
+      color: #f8fafc !important;
+      vertical-align: middle !important;
+    }
+
+    .board-table tbody tr:hover {
+      background: rgba(16, 185, 129, 0.08) !important;
+    }
+
+    .board-footer {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      gap: 20px !important;
+      padding-top: 8px !important;
+    }
+
+    .minimal-footer {
+      background: rgba(11, 15, 23, 0.98) !important;
+      border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+      padding: 50px 20px 60px !important;
+      text-align: center !important;
+      width: 100% !important;
+    }
+
+    .footer-container {
+      max-width: 1280px !important;
+      margin: 0 auto !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 14px !important;
+      text-align: center !important;
+    }
+
+    .footer-brand {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 6px !important;
+      text-align: center !important;
+    }
+
+    .footer-info {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 6px !important;
+      text-align: center !important;
+    }
+
+    .footer-info p, .footer-brand p {
+      color: #64748b !important;
+      font-size: 0.85rem !important;
+      margin: 0 !important;
+      text-align: center !important;
+    }
+
+    /* HIGH-END CUSTOM FORM STYLING FOR WRITE POST MODAL */
+    .modal-overlay {
+      background: rgba(0, 0, 0, 0.82) !important;
+      backdrop-filter: blur(16px) !important;
+    }
+
+    .modal-card {
+      background: #0f172a !important;
+      border: 1px solid rgba(16, 185, 129, 0.35) !important;
+      border-radius: 24px !important;
+      padding: 36px 32px !important;
+      box-shadow: 0 25px 80px rgba(0, 0, 0, 0.85), 0 0 40px rgba(16, 185, 129, 0.15) !important;
+      color: #ffffff !important;
+    }
+
+    .modal-header h2 {
+      color: #ffffff !important;
+      font-family: 'Outfit', sans-serif !important;
+      font-size: 1.8rem !important;
+      font-weight: 800 !important;
+      margin: 8px 0 !important;
+    }
+
+    .modal-header p {
+      color: #94a3b8 !important;
+      font-size: 0.92rem !important;
+    }
+
+    .form-group label {
+      color: #cbd5e1 !important;
+      font-size: 0.88rem !important;
+      font-weight: 600 !important;
+      margin-bottom: 8px !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 6px !important;
+    }
+
+    #postAuthor,
+    #postPassword,
+    #postTitle,
+    #postContent,
+    .post-form input[type="text"],
+    .post-form input[type="password"],
+    .post-form input[type="tel"],
+    .post-form textarea {
+      background-color: #1e293b !important;
+      background: #1e293b !important;
+      border: 1px solid rgba(255, 255, 255, 0.15) !important;
+      border-radius: 12px !important;
+      padding: 12px 16px !important;
+      color: #ffffff !important;
+      font-family: 'Inter', sans-serif !important;
+      font-size: 0.95rem !important;
+      outline: none !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+      transition: all 0.25s ease !important;
+    }
+
+    #postAuthor::placeholder,
+    #postPassword::placeholder,
+    #postTitle::placeholder,
+    #postContent::placeholder {
+      color: #64748b !important;
+    }
+
+    #postAuthor:focus,
+    #postPassword:focus,
+    #postTitle:focus,
+    #postContent:focus {
+      border-color: #10b981 !important;
+      box-shadow: 0 0 16px rgba(16, 185, 129, 0.35) !important;
+      background-color: #0f172a !important;
+    }
+
+    /* CUSTOM CATEGORY SELECTION PILLS */
+    .category-select-pills {
+      display: grid !important;
+      grid-template-columns: repeat(4, 1fr) !important;
+      gap: 8px !important;
+      margin-top: 4px !important;
+    }
+
+    .cat-pill-item {
+      background: #1e293b !important;
+      border: 1px solid rgba(255, 255, 255, 0.12) !important;
+      color: #94a3b8 !important;
+      padding: 11px 10px !important;
+      border-radius: 12px !important;
+      font-size: 0.88rem !important;
+      font-weight: 600 !important;
+      cursor: pointer !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 6px !important;
+      transition: all 0.25s ease !important;
+      user-select: none !important;
+    }
+
+    .cat-pill-item:hover {
+      background: rgba(255, 255, 255, 0.1) !important;
+      color: #ffffff !important;
+    }
+
+    .cat-pill-item.active {
+      background: #10b981 !important;
+      border-color: #10b981 !important;
+      color: #000000 !important;
+      font-weight: 800 !important;
+      box-shadow: 0 0 16px rgba(16, 185, 129, 0.4) !important;
+    }
+  </style>
+</head>
+<body class="dark-mode">
+
+  <!-- TOP ANNOUNCEMENT BAR -->
+  <div class="top-announcement">
+    <div class="announcement-content">
+      <span class="badge-flash"><i class="fa-solid fa-comments"></i> OFFICIAL COMMUNITY</span>
+      <span class="announcement-text">AURA 75 유저 자유게시판 | <strong>타건 후기 작성 시 5,000원 적립금 증정</strong></span>
+    </div>
+  </div>
+
+  <!-- MAIN HEADER -->
+  <header class="minimal-header">
+    <div class="header-container">
+      <a href="index.html" class="brand-logo" style="text-decoration:none;">
+        <span class="logo-mark">⚡</span>
+        <span class="logo-text">AURA <span>75</span></span>
+        <span class="logo-tag">COMMUNITY</span>
+      </a>
+
+      <nav class="community-nav-bar">
+        <a href="index.html" class="nav-item"><i class="fa-solid fa-house"></i> 메인 홈</a>
+        <a href="index.html#sound-test" class="nav-item"><i class="fa-solid fa-volume-high"></i> 타건음 체험</a>
+        <a href="index.html#configurator" class="nav-item"><i class="fa-solid fa-sliders"></i> 커스텀 빌더</a>
+        <a href="community.html" class="nav-item active"><i class="fa-solid fa-comments"></i> 자유게시판</a>
+      </nav>
+
+      <div class="header-right">
+        <button class="btn-primary-glow btn-header-write" onclick="openCreatePostModal()">
+          <i class="fa-solid fa-pen-to-square"></i> 새 글 쓰기
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="community-hero-section">
+    <div class="section-container">
+      <div class="community-hero-badge">
+        <span class="pulse-dot"></span> 2026 하이엔드 키보드 공식 커뮤니티
+      </div>
+      <h1 class="community-hero-title">
+        손끝에서 완벽해지는 <br>
+        <span class="text-gradient">타건 이야기 & 유저 커뮤니티</span>
+      </h1>
+      <p class="community-hero-subtitle">
+        AURA 75 실유저들의 솔직한 타건 후기, 5중 흡음재 튜닝 팁, 자유로운 Q&A를 공유하는 공간입니다.
+      </p>
+
+      <!-- 3 STATS CARDS -->
+      <div class="community-stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon"><i class="fa-solid fa-comments"></i></div>
+          <div class="stat-info">
+            <strong id="statTotalPosts">45개</strong>
+            <span>등록된 게시글</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon emerald"><i class="fa-solid fa-shield-halved"></i></div>
+          <div class="stat-info">
+            <strong>100% 실유저</strong>
+            <span>타건 검증 완료</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon gold"><i class="fa-solid fa-star"></i></div>
+          <div class="stat-info">
+            <strong>5.0 / 5.0</strong>
+            <span>유저 평균 만족도</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN BOARD SECTION -->
+  <section class="community-board-section">
+    <div class="section-container">
+      
+      <!-- BOARD WRAPPER CARD -->
+      <div class="board-card-wrapper">
+        
+        <!-- TOOLBAR: CATEGORIES & SEARCH -->
+        <div class="board-toolbar">
+          <div class="cat-filter-tabs">
+            <button class="cat-tab active" onclick="filterCategory('all', this)">
+              <i class="fa-solid fa-border-all"></i> 전체
+            </button>
+            <button class="cat-tab" onclick="filterCategory('자유', this)">
+              <i class="fa-solid fa-comments"></i> 자유
+            </button>
+            <button class="cat-tab" onclick="filterCategory('타건후기', this)">
+              <i class="fa-solid fa-star"></i> 타건후기
+            </button>
+            <button class="cat-tab" onclick="filterCategory('커스텀팁', this)">
+              <i class="fa-solid fa-lightbulb"></i> 커스텀팁
+            </button>
+            <button class="cat-tab" onclick="filterCategory('질문', this)">
+              <i class="fa-solid fa-circle-question"></i> 질문
+            </button>
+          </div>
+
+          <div class="board-search-group">
+            <div class="search-input-box">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input type="text" placeholder="제목, 작성자, 내용 검색..." oninput="handleCommunitySearch(this.value)">
+            </div>
+            <button class="btn-primary-glow btn-create-post-sm" onclick="openCreatePostModal()">
+              <i class="fa-solid fa-pen-to-square"></i> 글쓰기
+            </button>
+          </div>
+        </div>
+
+        <!-- BOARD TABLE -->
+        <div class="board-table-responsive">
+          <table class="board-table">
+            <thead>
+              <tr>
+                <th class="th-id">번호</th>
+                <th class="th-cat">구분</th>
+                <th class="th-title">제목</th>
+                <th class="th-author">작성자</th>
+                <th class="th-date">작성일</th>
+                <th class="th-views">조회</th>
+                <th class="th-likes">추천</th>
+              </tr>
+            </thead>
+            <tbody id="communityPostsTbody">
+              <!-- Dynamically populated via community.js -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- BOARD FOOTER & PAGINATION -->
+        <div class="board-footer">
+          <div class="page-info-text" id="pageInfoText">
+            1 / 3 페이지 (총 45개)
+          </div>
+          <div class="pagination-buttons" id="communityPagination">
+            <!-- Dynamically populated via community.js -->
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="minimal-footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <div class="brand-logo">
+          <span class="logo-mark">⚡</span>
+          <span class="logo-text">AURA <span>75</span></span>
+        </div>
+        <p>© 2026 AURA Custom Keyboards. All rights reserved.</p>
+      </div>
+      <div class="footer-info">
+        <p>고객센터: 1588-0000 (평일 09:00 - 18:00) | 30일 100% 무상 반품 보증</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- CREATE POST MODAL -->
+  <div class="modal-overlay" id="createPostModal">
+    <div class="modal-card">
+      <button class="btn-modal-close" onclick="closeCreatePostModal()">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div class="modal-header">
+        <div class="modal-tag"><i class="fa-solid fa-feather text-emerald"></i> 익명 게시글 작성</div>
+        <h2>자유게시판 글쓰기</h2>
+        <p>키보드와 관련된 이야기라면 무엇이든 자유롭게 나누어 보세요.</p>
+      </div>
+
+      <form class="post-form" id="createPostForm" onsubmit="handleCreatePostSubmit(event)">
+        <div class="form-row-grid">
+          <div class="form-group">
+            <label for="postAuthor"><i class="fa-solid fa-user"></i> 작성자 닉네임 *</label>
+            <input type="text" id="postAuthor" value="익명" placeholder="익명 또는 닉네임">
+          </div>
+          <div class="form-group">
+            <label for="postPassword"><i class="fa-solid fa-key"></i> 비밀번호 (글 삭제용) *</label>
+            <input type="password" id="postPassword" placeholder="숫자 4자리" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label><i class="fa-solid fa-tag"></i> 카테고리 선택 *</label>
+          <div class="category-select-pills" id="modalCategoryPills">
+            <div class="cat-pill-item active" onclick="selectModalCategory('자유', this)">
+              <i class="fa-solid fa-comments"></i> 자유
+            </div>
+            <div class="cat-pill-item" onclick="selectModalCategory('타건후기', this)">
+              <i class="fa-solid fa-star"></i> 타건후기
+            </div>
+            <div class="cat-pill-item" onclick="selectModalCategory('커스텀팁', this)">
+              <i class="fa-solid fa-lightbulb"></i> 커스텀팁
+            </div>
+            <div class="cat-pill-item" onclick="selectModalCategory('질문', this)">
+              <i class="fa-solid fa-circle-question"></i> 질문
+            </div>
+          </div>
+          <input type="hidden" id="postCategory" value="자유" required>
+        </div>
+
+        <div class="form-group">
+          <label for="postTitle"><i class="fa-solid fa-heading"></i> 게시글 제목 *</label>
+          <input type="text" id="postTitle" required placeholder="제목을 입력해 주세요.">
+        </div>
+
+        <div class="form-group">
+          <label for="postContent"><i class="fa-solid fa-align-left"></i> 게시글 내용 *</label>
+          <textarea id="postContent" rows="6" required placeholder="내용을 작성해 주세요."></textarea>
+        </div>
+
+        <button type="submit" class="btn-primary-glow btn-submit-post">
+          <span>게시글 등록하기</span>
+          <i class="fa-solid fa-paper-plane"></i>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- VIEW POST DETAIL MODAL -->
+  <div class="modal-overlay" id="viewPostModal">
+    <div class="modal-card modal-card-lg">
+      <button class="btn-modal-close" onclick="closeViewPostModal()">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div class="post-detail-header">
+        <div class="post-detail-meta">
+          <span class="badge-cat" id="viewPostCategory">자유</span>
+          <span class="post-detail-author"><i class="fa-solid fa-user-circle"></i> <strong id="viewPostAuthor">익명</strong></span>
+          <span class="post-detail-date"><i class="fa-solid fa-clock"></i> <span id="viewPostDate">2026-07-24</span></span>
+          <span class="post-detail-views"><i class="fa-solid fa-eye"></i> <span id="viewPostViews">0</span></span>
+        </div>
+        <h2 id="viewPostTitle">게시글 제목</h2>
+      </div>
+
+      <div class="post-detail-body" id="viewPostContent">
+        <!-- Body Text Loaded via JS -->
+      </div>
+
+      <div class="post-detail-actions">
+        <button class="btn-like-post" onclick="likeCurrentPost()">
+          <i class="fa-solid fa-heart text-pink"></i>
+          <span>추천하기 (<strong id="viewPostLikes">0</strong>)</span>
+        </button>
+        
+        <button class="btn-delete-post" onclick="deleteCurrentPost()">
+          <i class="fa-solid fa-trash-can"></i>
+          <span>삭제</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JS SCRIPTS -->
+  <script src="js/community.js?v=20260724_v9"></script>
+</body>
+</html>
