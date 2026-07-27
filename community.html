@@ -77,11 +77,36 @@
       background: rgba(16, 185, 129, 0.12) !important;
     }
 
+    /* COMMUNITY HERO SECTION 2-COLUMN GRID & VIDEO CARD */
     .community-hero-section {
-      padding: 60px 20px 45px !important;
-      background: radial-gradient(circle at 50% 0%, rgba(16, 185, 129, 0.15) 0%, #0b0f17 75%) !important;
+      padding: 55px 20px 50px !important;
+      background: radial-gradient(circle at 35% 20%, rgba(16, 185, 129, 0.18) 0%, #0b0f17 75%) !important;
       border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
-      text-align: center !important;
+      position: relative !important;
+      overflow: hidden !important;
+    }
+
+    .community-hero-grid {
+      display: grid !important;
+      grid-template-columns: 1.05fr 0.95fr !important;
+      gap: 40px !important;
+      align-items: center !important;
+    }
+
+    @media (max-width: 992px) {
+      .community-hero-grid {
+        grid-template-columns: 1fr !important;
+        gap: 32px !important;
+        text-align: center !important;
+      }
+      .community-hero-subtitle {
+        margin-left: auto !important;
+        margin-right: auto !important;
+      }
+      .community-hero-badge {
+        margin-left: auto !important;
+        margin-right: auto !important;
+      }
     }
 
     .community-hero-badge {
@@ -100,7 +125,7 @@
 
     .community-hero-title {
       font-family: 'Outfit', sans-serif !important;
-      font-size: 2.8rem !important;
+      font-size: 2.6rem !important;
       font-weight: 800 !important;
       line-height: 1.25 !important;
       margin: 0 0 14px !important;
@@ -109,42 +134,46 @@
 
     .community-hero-subtitle {
       color: #94a3b8 !important;
-      font-size: 1.08rem !important;
+      font-size: 1.05rem !important;
       line-height: 1.6 !important;
-      max-width: 680px !important;
-      margin: 0 auto 36px !important;
+      margin: 0 0 28px !important;
     }
 
     .community-stats-grid {
       display: grid !important;
       grid-template-columns: repeat(3, 1fr) !important;
-      gap: 20px !important;
-      max-width: 820px !important;
-      margin: 0 auto !important;
+      gap: 14px !important;
+      margin-top: 24px !important;
+    }
+
+    @media (max-width: 600px) {
+      .community-stats-grid {
+        grid-template-columns: 1fr !important;
+      }
     }
 
     .stat-card {
       background: #111520 !important;
       border: 1px solid rgba(255, 255, 255, 0.08) !important;
       border-radius: 16px !important;
-      padding: 20px 24px !important;
+      padding: 16px 18px !important;
       display: flex !important;
       align-items: center !important;
-      gap: 16px !important;
+      gap: 12px !important;
       text-align: left !important;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
     }
 
     .stat-icon {
-      width: 46px !important;
-      height: 46px !important;
+      width: 42px !important;
+      height: 42px !important;
       border-radius: 12px !important;
       background: rgba(56, 189, 248, 0.15) !important;
       color: #38bdf8 !important;
       display: flex !important;
       align-items: center !important;
       justify-content: center !important;
-      font-size: 1.2rem !important;
+      font-size: 1.1rem !important;
       flex-shrink: 0 !important;
     }
 
@@ -165,14 +194,122 @@
 
     .stat-info strong {
       font-family: 'Outfit', sans-serif !important;
-      font-size: 1.3rem !important;
+      font-size: 1.15rem !important;
       font-weight: 800 !important;
       color: #ffffff !important;
     }
 
     .stat-info span {
-      font-size: 0.8rem !important;
+      font-size: 0.78rem !important;
       color: #94a3b8 !important;
+    }
+
+    /* HERO VIDEO CARD SHOWCASE DESIGN */
+    .community-hero-video-wrapper {
+      width: 100% !important;
+      display: flex !important;
+      justify-content: center !important;
+    }
+
+    .community-video-card {
+      position: relative !important;
+      width: 100% !important;
+      border-radius: 20px !important;
+      overflow: hidden !important;
+      background: #111520 !important;
+      border: 1px solid rgba(16, 185, 129, 0.35) !important;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 35px rgba(16, 185, 129, 0.15) !important;
+      aspect-ratio: 16 / 10 !important;
+      transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+    }
+
+    .community-video-card:hover {
+      transform: translateY(-4px) !important;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 45px rgba(16, 185, 129, 0.25) !important;
+    }
+
+    .community-hero-video {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      display: block !important;
+    }
+
+    .comm-video-badge {
+      position: absolute !important;
+      top: 14px !important;
+      left: 14px !important;
+      background: rgba(15, 23, 42, 0.82) !important;
+      backdrop-filter: blur(12px) !important;
+      border: 1px solid rgba(255, 255, 255, 0.12) !important;
+      color: #ffffff !important;
+      padding: 6px 12px !important;
+      border-radius: 20px !important;
+      font-size: 0.75rem !important;
+      font-weight: 700 !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 6px !important;
+      z-index: 2 !important;
+    }
+
+    .pulse-dot-red {
+      width: 8px !important;
+      height: 8px !important;
+      background-color: #ef4444 !important;
+      border-radius: 50% !important;
+      box-shadow: 0 0 8px #ef4444 !important;
+      animation: pulseGlow 1.5s infinite !important;
+    }
+
+    .comm-video-controls {
+      position: absolute !important;
+      top: 14px !important;
+      right: 14px !important;
+      z-index: 2 !important;
+    }
+
+    .btn-sound-toggle {
+      background: rgba(15, 23, 42, 0.82) !important;
+      backdrop-filter: blur(12px) !important;
+      border: 1px solid rgba(16, 185, 129, 0.4) !important;
+      color: #ffffff !important;
+      padding: 7px 14px !important;
+      border-radius: 20px !important;
+      font-size: 0.8rem !important;
+      font-weight: 600 !important;
+      cursor: pointer !important;
+      display: flex !important;
+      align-items: center !important;
+      gap: 6px !important;
+      transition: all 0.2s ease !important;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3) !important;
+    }
+
+    .btn-sound-toggle:hover {
+      background: #10b981 !important;
+      color: #000000 !important;
+      border-color: #10b981 !important;
+      font-weight: 700 !important;
+    }
+
+    .comm-video-caption {
+      position: absolute !important;
+      bottom: 14px !important;
+      left: 14px !important;
+      right: 14px !important;
+      background: rgba(15, 23, 42, 0.82) !important;
+      backdrop-filter: blur(12px) !important;
+      border: 1px solid rgba(255, 255, 255, 0.1) !important;
+      color: #cbd5e1 !important;
+      padding: 8px 14px !important;
+      border-radius: 12px !important;
+      font-size: 0.82rem !important;
+      font-weight: 500 !important;
+      display: flex !important;
+      align-items: center !important;
+      gap: 8px !important;
+      z-index: 2 !important;
     }
 
     .community-board-section {
@@ -505,43 +642,79 @@
     </div>
   </header>
 
-  <!-- HERO SECTION -->
+  <!-- HERO SECTION WITH INTEGRATED STUDIO VIDEO SHOWCASE -->
   <section class="community-hero-section">
     <div class="section-container">
-      <div class="community-hero-badge">
-        <span class="pulse-dot"></span> 2026 하이엔드 키보드 공식 커뮤니티
-      </div>
-      <h1 class="community-hero-title">
-        손끝에서 완벽해지는 <br>
-        <span class="text-gradient">타건 이야기 & 유저 커뮤니티</span>
-      </h1>
-      <p class="community-hero-subtitle">
-        AURA 75 실유저들의 솔직한 타건 후기, 5중 흡음재 튜닝 팁, 자유로운 Q&A를 공유하는 공간입니다.
-      </p>
+      <div class="community-hero-grid">
+        
+        <!-- LEFT: HERO CONTENT & STATS -->
+        <div class="community-hero-content">
+          <div class="community-hero-badge">
+            <span class="pulse-dot"></span> 2026 하이엔드 키보드 공식 커뮤니티
+          </div>
+          <h1 class="community-hero-title">
+            손끝에서 완벽해지는 <br>
+            <span class="text-gradient">타건 이야기 & 유저 커뮤니티</span>
+          </h1>
+          <p class="community-hero-subtitle">
+            AURA 75 실유저들의 솔직한 타건 후기, 5중 흡음재 튜닝 팁, 자유로운 Q&A를 공유하는 공간입니다.
+          </p>
 
-      <!-- 3 STATS CARDS -->
-      <div class="community-stats-grid">
-        <div class="stat-card">
-          <div class="stat-icon"><i class="fa-solid fa-comments"></i></div>
-          <div class="stat-info">
-            <strong id="statTotalPosts">45개</strong>
-            <span>등록된 게시글</span>
+          <!-- 3 STATS CARDS -->
+          <div class="community-stats-grid">
+            <div class="stat-card">
+              <div class="stat-icon"><i class="fa-solid fa-comments"></i></div>
+              <div class="stat-info">
+                <strong id="statTotalPosts">45개</strong>
+                <span>등록된 게시글</span>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon emerald"><i class="fa-solid fa-shield-halved"></i></div>
+              <div class="stat-info">
+                <strong>100% 실유저</strong>
+                <span>타건 검증 완료</span>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon gold"><i class="fa-solid fa-star"></i></div>
+              <div class="stat-info">
+                <strong>5.0 / 5.0</strong>
+                <span>유저 평균 만족도</span>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="stat-card">
-          <div class="stat-icon emerald"><i class="fa-solid fa-shield-halved"></i></div>
-          <div class="stat-info">
-            <strong>100% 실유저</strong>
-            <span>타건 검증 완료</span>
+
+        <!-- RIGHT: INTEGRATED HERO SHOT VIDEO SHOWCASE -->
+        <div class="community-hero-video-wrapper">
+          <div class="community-video-card">
+            <video id="commHeroVideo" class="community-hero-video" autoplay loop muted playsinline>
+              <source src="Happy_Hacking_keyboard_studio_shot_202607222007.mp4" type="video/mp4">
+              브라우저가 비디오 태그를 지원하지 않습니다.
+            </video>
+
+            <!-- LIVE BADGE OVERLAY -->
+            <div class="comm-video-badge">
+              <span class="pulse-dot-red"></span> LIVE STUDIO SHOT
+            </div>
+
+            <!-- SOUND TOGGLE BUTTON OVERLAY -->
+            <div class="comm-video-controls">
+              <button type="button" class="btn-sound-toggle" id="commSoundBtn" onclick="toggleCommVideoSound()">
+                <i class="fa-solid fa-volume-xmark" id="commSoundIcon"></i>
+                <span id="commSoundText">음악 켜기</span>
+              </button>
+            </div>
+
+            <!-- CAPTION OVERLAY -->
+            <div class="comm-video-caption">
+              <i class="fa-solid fa-compact-disc fa-spin text-emerald"></i>
+              <span>AURA 75 4K 60fps 하이엔드 스튜디오 타건 샷</span>
+            </div>
           </div>
         </div>
-        <div class="stat-card">
-          <div class="stat-icon gold"><i class="fa-solid fa-star"></i></div>
-          <div class="stat-info">
-            <strong>5.0 / 5.0</strong>
-            <span>유저 평균 만족도</span>
-          </div>
-        </div>
+
       </div>
     </div>
   </section>
@@ -853,6 +1026,29 @@
   </div>
 
   <!-- JS SCRIPTS -->
+  <script>
+    function toggleCommVideoSound() {
+      const video = document.getElementById('commHeroVideo');
+      const icon = document.getElementById('commSoundIcon');
+      const text = document.getElementById('commSoundText');
+      const btn = document.getElementById('commSoundBtn');
+
+      if (!video) return;
+
+      if (video.muted) {
+        video.muted = false;
+        video.volume = 0.8;
+        if (icon) icon.className = 'fa-solid fa-volume-high text-emerald';
+        if (text) text.textContent = '음악 끄기 (ON)';
+        if (btn) btn.style.borderColor = '#10b981';
+      } else {
+        video.muted = true;
+        if (icon) icon.className = 'fa-solid fa-volume-xmark';
+        if (text) text.textContent = '음악 켜기';
+        if (btn) btn.style.borderColor = 'rgba(16, 185, 129, 0.4)';
+      }
+    }
+  </script>
   <script src="js/auth.js"></script>
   <script src="js/community.js?v=20260724_v9"></script>
 </body>
