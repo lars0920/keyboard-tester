@@ -251,13 +251,29 @@ if (document.readyState === 'loading') {
 
 // 3. Render Community Board with Pagination
 async function renderCommunityBoard() {
-  const posts = await fetchPosts();
   const tbody = document.getElementById('communityPostsTbody');
   const paginationContainer = document.getElementById('communityPagination');
   const totalCountEl = document.getElementById('totalPostsCount');
   const pageInfoEl = document.getElementById('pageInfoText');
 
   if (!tbody) return;
+
+  // Render Instant Skeleton Shimmer UI for zero perceived latency (<20ms FCP)
+  if (!cachedPosts || cachedPosts.length === 0) {
+    tbody.innerHTML = Array(6).fill(0).map(() => `
+      <tr class="post-row-skeleton">
+        <td style="padding: 16px;"><div class="skeleton-shimmer" style="height: 18px; width: 30px; border-radius: 4px;"></div></td>
+        <td style="padding: 16px;"><div class="skeleton-shimmer" style="height: 22px; width: 60px; border-radius: 12px;"></div></td>
+        <td style="padding: 16px;"><div class="skeleton-shimmer" style="height: 18px; width: 80%; border-radius: 4px;"></div></td>
+        <td style="padding: 16px;"><div class="skeleton-shimmer" style="height: 18px; width: 70px; border-radius: 4px;"></div></td>
+        <td style="padding: 16px;"><div class="skeleton-shimmer" style="height: 18px; width: 90px; border-radius: 4px;"></div></td>
+        <td style="padding: 16px;"><div class="skeleton-shimmer" style="height: 18px; width: 40px; border-radius: 4px;"></div></td>
+        <td style="padding: 16px;"><div class="skeleton-shimmer" style="height: 18px; width: 40px; border-radius: 4px;"></div></td>
+      </tr>
+    `).join('');
+  }
+
+  const posts = await fetchPosts();
 
   // Apply Filter & Search
   let filtered = posts.filter(post => {
