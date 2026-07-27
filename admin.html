@@ -325,79 +325,93 @@
 
   <!-- PRODUCT ADD / EDIT MODAL (WITH VERCEL BLOB DRAG & DROP UPLOADER) -->
   <div class="modal-overlay" id="productModal">
-    <div class="modal-card" style="background: #0f172a; border: 1px solid rgba(16, 185, 129, 0.35); border-radius: 24px; padding: 32px; max-width: 580px; width: 90%;">
-      <button class="btn-modal-close" onclick="closeProductModal()">
+    <div class="modal-card" style="background: #0f172a; border: 1px solid rgba(16, 185, 129, 0.35); border-radius: 24px; padding: 32px; max-width: 580px; width: 90%; box-shadow: 0 25px 80px rgba(0,0,0,0.9), 0 0 40px rgba(16,185,129,0.25); backdrop-filter: blur(20px);">
+      <button class="btn-modal-close" onclick="closeProductModal()" style="color: #94a3b8; font-size: 1.2rem; cursor: pointer; transition: color 0.2s;">
         <i class="fa-solid fa-xmark"></i>
       </button>
 
-      <div class="modal-header" style="text-align: left; margin-bottom: 20px;">
-        <h2 style="font-size: 1.4rem; font-weight: 800; color: #ffffff;" id="productModalTitle"><i class="fa-solid fa-box text-emerald"></i> 신규 상품 등록</h2>
-        <p style="color: #94a3b8; font-size: 0.88rem;">스토어에 판매할 상품 정보를 입력하고 썸네일을 업로드하세요.</p>
+      <div class="modal-header" style="text-align: left; margin-bottom: 22px;">
+        <h2 style="font-size: 1.45rem; font-weight: 800; color: #ffffff;" id="productModalTitle"><i class="fa-solid fa-box text-emerald"></i> 신규 상품 등록</h2>
+        <p style="color: #94a3b8; font-size: 0.88rem; margin-top: 4px;">스토어에 판매할 상품 정보를 입력하고 썸네일을 업로드하세요.</p>
       </div>
 
       <form onsubmit="handleProductFormSubmit(event)">
         <input type="hidden" id="pmProductId" value="">
 
-        <div class="form-group" style="margin-bottom: 14px;">
-          <label for="pmName"><i class="fa-solid fa-tag"></i> 상품명 *</label>
-          <input type="text" id="pmName" required placeholder="예: AURA 75 미드나잇 블랙">
+        <div class="form-group" style="margin-bottom: 16px;">
+          <label for="pmName" style="color: #cbd5e1; font-weight: 600; font-size: 0.85rem; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
+            <i class="fa-solid fa-tag text-emerald"></i> 상품명 *
+          </label>
+          <input type="text" id="pmName" required placeholder="예: AURA 75 미드나잇 블랙" style="background: rgba(30, 41, 59, 0.7); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 10px; padding: 12px 14px; color: #ffffff; width: 100%; font-size: 0.92rem; outline: none; transition: all 0.2s ease;">
         </div>
 
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px;">
           <div class="form-group">
-            <label for="pmCategory"><i class="fa-solid fa-layer-group"></i> 카테고리 *</label>
-            <select id="pmCategory" style="background: #1e293b; border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 10px; color: #ffffff; width: 100%;">
-              <option value="키보드">키보드</option>
-              <option value="스위치">스위치</option>
-              <option value="보강판/흡음재">보강판/흡음재</option>
-              <option value="액세서리">액세서리</option>
+            <label for="pmCategory" style="color: #cbd5e1; font-weight: 600; font-size: 0.85rem; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
+              <i class="fa-solid fa-layer-group text-emerald"></i> 카테고리 *
+            </label>
+            <select id="pmCategory" style="background: rgba(30, 41, 59, 0.9); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 10px; padding: 12px 14px; color: #ffffff; width: 100%; font-size: 0.92rem; outline: none; cursor: pointer;">
+              <option value="키보드" style="background: #0f172a; color: #ffffff;">키보드</option>
+              <option value="스위치" style="background: #0f172a; color: #ffffff;">스위치</option>
+              <option value="보강판/흡음재" style="background: #0f172a; color: #ffffff;">보강판/흡음재</option>
+              <option value="액세서리" style="background: #0f172a; color: #ffffff;">액세서리</option>
             </select>
           </div>
 
           <div class="form-group">
-            <label for="pmPrice"><i class="fa-solid fa-won-sign"></i> 판매 가격 (원) *</label>
-            <input type="number" id="pmPrice" required placeholder="285000">
+            <label for="pmPrice" style="color: #cbd5e1; font-weight: 600; font-size: 0.85rem; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
+              <i class="fa-solid fa-won-sign text-emerald"></i> 판매 가격 (원) *
+            </label>
+            <input type="number" id="pmPrice" required placeholder="285000" style="background: rgba(30, 41, 59, 0.7); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 10px; padding: 12px 14px; color: #ffffff; width: 100%; font-size: 0.92rem; outline: none;">
           </div>
         </div>
 
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px;">
           <div class="form-group">
-            <label for="pmOriginalPrice">할인 전 원가 (원)</label>
-            <input type="number" id="pmOriginalPrice" placeholder="349000">
+            <label for="pmOriginalPrice" style="color: #cbd5e1; font-weight: 600; font-size: 0.85rem; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
+              <i class="fa-solid fa-tags text-muted"></i> 할인 전 원가 (원)
+            </label>
+            <input type="number" id="pmOriginalPrice" placeholder="349000" style="background: rgba(30, 41, 59, 0.7); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 10px; padding: 12px 14px; color: #ffffff; width: 100%; font-size: 0.92rem; outline: none;">
           </div>
 
           <div class="form-group">
-            <label for="pmStock">재고 수량</label>
-            <input type="number" id="pmStock" value="50">
+            <label for="pmStock" style="color: #cbd5e1; font-weight: 600; font-size: 0.85rem; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
+              <i class="fa-solid fa-boxes-stacked text-emerald"></i> 재고 수량
+            </label>
+            <input type="number" id="pmStock" value="50" style="background: rgba(30, 41, 59, 0.7); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 10px; padding: 12px 14px; color: #ffffff; width: 100%; font-size: 0.92rem; outline: none;">
           </div>
         </div>
 
         <!-- DRAG & DROP VERCEL BLOB IMAGE UPLOADER -->
-        <div class="form-group" style="margin-bottom: 16px;">
-          <label><i class="fa-solid fa-image"></i> 상품 썸네일 이미지 (Vercel Blob / Drag & Drop) *</label>
+        <div class="form-group" style="margin-bottom: 18px;">
+          <label style="color: #cbd5e1; font-weight: 600; font-size: 0.85rem; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
+            <i class="fa-solid fa-image text-emerald"></i> 상품 썸네일 이미지 (Vercel Blob / Drag & Drop) *
+          </label>
           
-          <div id="dragDropArea" style="border: 2px dashed rgba(16, 185, 129, 0.4); background: rgba(30, 41, 59, 0.4); border-radius: 14px; padding: 24px; text-align: center; cursor: pointer; transition: all 0.2s ease;">
-            <i class="fa-solid fa-cloud-arrow-up" style="font-size: 2rem; color: #10b981; margin-bottom: 8px;"></i>
-            <div style="font-weight: 700; color: #ffffff; font-size: 0.92rem;">이미지를 여기로 드래그 앤 드롭 하세요</div>
-            <div style="font-size: 0.78rem; color: #94a3b8; margin-top: 4px;">또는 클릭하여 이미지 파일 선택 (JPG, PNG, WebP)</div>
+          <div id="dragDropArea" style="border: 2px dashed rgba(16, 185, 129, 0.45); background: rgba(16, 185, 129, 0.05); border-radius: 16px; padding: 26px 20px; text-align: center; cursor: pointer; transition: all 0.2s ease;">
+            <i class="fa-solid fa-cloud-arrow-up" style="font-size: 2.2rem; color: #10b981; margin-bottom: 8px;"></i>
+            <div style="font-weight: 700; color: #ffffff; font-size: 0.95rem;">이미지를 여기로 드래그 앤 드롭 하세요</div>
+            <div style="font-size: 0.8rem; color: #94a3b8; margin-top: 4px;">또는 클릭하여 이미지 파일 선택 (JPG, PNG, WebP)</div>
             <input type="file" id="productFileInput" accept="image/*" style="display: none;" onchange="handleProductFileSelect(this)">
           </div>
 
           <input type="hidden" id="pmThumbnailUrl" required>
           
           <!-- Image Preview -->
-          <div id="imagePreviewWrap" style="display: none; margin-top: 10px; text-align: center;">
-            <img id="thumbnailPreview" src="" alt="Preview" style="max-height: 140px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1);">
-            <div style="font-size: 0.78rem; color: #10b981; margin-top: 4px;"><i class="fa-solid fa-circle-check"></i> 이미지 업로드 완료!</div>
+          <div id="imagePreviewWrap" style="display: none; margin-top: 12px; text-align: center; background: rgba(30,41,59,0.5); padding: 12px; border-radius: 12px; border: 1px solid rgba(16,185,129,0.2);">
+            <img id="thumbnailPreview" src="" alt="Preview" style="max-height: 140px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.15); object-fit: cover;">
+            <div style="font-size: 0.8rem; color: #10b981; font-weight: 700; margin-top: 6px;"><i class="fa-solid fa-circle-check"></i> 썸네일 이미지 업로드 완료!</div>
           </div>
         </div>
 
-        <div class="form-group" style="margin-bottom: 20px;">
-          <label for="pmDescription">상품 설명</label>
-          <textarea id="pmDescription" rows="3" placeholder="상품에 대한 구체적인 설명을 입력하세요..." style="background: #1e293b; border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 10px; color: #ffffff; width: 100%; resize: vertical;"></textarea>
+        <div class="form-group" style="margin-bottom: 24px;">
+          <label for="pmDescription" style="color: #cbd5e1; font-weight: 600; font-size: 0.85rem; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
+            <i class="fa-solid fa-align-left text-emerald"></i> 상품 상세 설명
+          </label>
+          <textarea id="pmDescription" rows="3" placeholder="상품에 대한 구체적인 특징과 사양을 입력하세요..." style="background: rgba(30, 41, 59, 0.7); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 10px; padding: 12px 14px; color: #ffffff; width: 100%; font-size: 0.92rem; outline: none; resize: vertical; line-height: 1.5;"></textarea>
         </div>
 
-        <button type="submit" class="btn-primary-glow" style="width: 100%; padding: 14px; border-radius: 12px; font-size: 1rem; font-weight: 800; cursor: pointer;">
+        <button type="submit" class="btn-primary-glow" style="width: 100%; padding: 14px; border-radius: 14px; font-size: 1.02rem; font-weight: 800; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: #000000; border: none; cursor: pointer; box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4); transition: all 0.2s ease;">
           <i class="fa-solid fa-save"></i> 상품 정보 저장하기
         </button>
       </form>
