@@ -411,8 +411,9 @@
   <script src="js/community.js"></script>
   <script src="js/store.js"></script>
   <script>
+    // 1. Render Main Admin Dashboard Data
     async function renderAdminDashboard() {
-      // 1. Render Users from Supabase profiles / local fallback
+      // Render Users from Supabase profiles / local fallback
       let users = getUsers();
       if (window.supabaseClient) {
         try {
@@ -460,10 +461,10 @@
         `).join('');
       }
 
-      // 2. Render Products Moderation
+      // Render Products Moderation
       await renderAdminProducts();
 
-      // 3. Render Posts Moderation from Supabase / local fallback
+      // Render Posts Moderation from Supabase / local fallback
       let posts = typeof fetchPosts === 'function' ? await fetchPosts() : [];
       const postCountEl = document.getElementById('adminPostCountVal');
       if (postCountEl) postCountEl.textContent = posts.length + ' 개';
@@ -487,7 +488,7 @@
       }
     }
 
-    // Product Admin Moderation Handlers
+    // 2. Product Admin Moderation Functions
     async function renderAdminProducts() {
       const products = typeof fetchStoreProducts === 'function' ? await fetchStoreProducts() : [];
       const tbody = document.getElementById('adminProductsTbody');
@@ -497,7 +498,7 @@
         <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
           <td style="padding: 12px 16px; text-align: center; color: #64748b;">#${p.id}</td>
           <td style="padding: 12px 16px; text-align: center;">
-            <img src="${p.thumbnail_url}" alt="${p.name}" style="width: 44px; height: 44px; border-radius: 8px; object-fit: cover; border: 1px solid rgba(255,255,255,0.1);">
+            <img src="${p.thumbnail_url}" alt="${p.name}" style="width: 44px; height: 44px; border-radius: 8px; object-fit: cover; border: 1px solid rgba(255,255,255,0.1);" onerror="this.src='https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=800&q=80'">
           </td>
           <td style="padding: 12px 16px; font-weight: 600; color: #ffffff;">${p.name}</td>
           <td style="padding: 12px 16px; text-align: center;"><span class="badge-cat">${p.category}</span></td>
@@ -518,7 +519,9 @@
     }
 
     function openAddProductModal() {
-      document.getElementById('productModalTitle').innerHTML = '<i class="fa-solid fa-box text-emerald"></i> 신규 상품 등록';
+      const modalTitle = document.getElementById('productModalTitle');
+      if (modalTitle) modalTitle.innerHTML = '<i class="fa-solid fa-box text-emerald"></i> 신규 상품 등록';
+      
       document.getElementById('pmProductId').value = '';
       document.getElementById('pmName').value = '';
       document.getElementById('pmCategory').value = '키보드';
@@ -532,7 +535,10 @@
       if (preview) preview.style.display = 'none';
 
       const modal = document.getElementById('productModal');
-      if (modal) modal.style.display = 'flex';
+      if (modal) {
+        modal.classList.add('active');
+        modal.style.display = 'flex';
+      }
     }
 
     async function openEditProductModal(id) {
@@ -540,7 +546,9 @@
       const product = products.find(p => p.id === id);
       if (!product) return;
 
-      document.getElementById('productModalTitle').innerHTML = `<i class="fa-solid fa-pen-to-square text-emerald"></i> 상품 #${id} 수정`;
+      const modalTitle = document.getElementById('productModalTitle');
+      if (modalTitle) modalTitle.innerHTML = `<i class="fa-solid fa-pen-to-square text-emerald"></i> 상품 #${id} 수정`;
+
       document.getElementById('pmProductId').value = product.id;
       document.getElementById('pmName').value = product.name;
       document.getElementById('pmCategory').value = product.category;
@@ -558,12 +566,18 @@
       }
 
       const modal = document.getElementById('productModal');
-      if (modal) modal.style.display = 'flex';
+      if (modal) {
+        modal.classList.add('active');
+        modal.style.display = 'flex';
+      }
     }
 
     function closeProductModal() {
       const modal = document.getElementById('productModal');
-      if (modal) modal.style.display = 'none';
+      if (modal) {
+        modal.classList.remove('active');
+        modal.style.display = 'none';
+      }
     }
 
     async function handleProductFormSubmit(e) {
@@ -579,6 +593,7 @@
 
       const productPayload = { name, category, price, original_price, stock, thumbnail_url, description, rating: 5.0 };
 
+      // 1. Update Supabase public.products
       if (window.supabaseClient) {
         try {
           if (id) {
@@ -591,9 +606,22 @@
         }
       }
 
+      // 2. Update Local Storage fallback
+      try {
+        const stored = localStorage.getItem('aura_store_products_v1');
+        let products = stored ? JSON.parse(stored) : [];
+        if (id) {
+          products = products.map(p => p.id === parseInt(id) ? { ...p, ...productPayload } : p);
+        } else {
+          const newId = products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1;
+          products.unshift({ id: newId, ...productPayload });
+        }
+        localStorage.setItem('aura_store_products_v1', JSON.stringify(products));
+      } catch (e) {}
+
       closeProductModal();
       await renderAdminDashboard();
-      if (window.showToast) window.showToast(`상품 정보가 성공적으로 ${id ? '수정' : '등록'}되었습니다!`, 'success');
+      if (window.showToast) window.showToast(`✨ 상품 정보가 성공적으로 ${id ? '수정' : '등록'}되었습니다!`, 'success');
     }
 
     async function adminDeleteProduct(id) {
@@ -605,11 +633,20 @@
         } catch (err) {}
       }
 
+      try {
+        const stored = localStorage.getItem('aura_store_products_v1');
+        if (stored) {
+          let products = JSON.parse(stored);
+          products = products.filter(p => p.id !== id);
+          localStorage.setItem('aura_store_products_v1', JSON.stringify(products));
+        }
+      } catch (e) {}
+
       await renderAdminDashboard();
-      if (window.showToast) window.showToast(`상품 #${id}이(가) 삭제되었습니다.`, 'info');
+      if (window.showToast) window.showToast(`🗑️ 상품 #${id}이(가) 삭제되었습니다.`, 'info');
     }
 
-    // Drag & Drop Vercel Blob Image Upload Handler
+    // 3. Drag & Drop Vercel Blob Image Upload Handler
     function setupDragAndDrop() {
       const dropZone = document.getElementById('dragDropArea');
       const fileInput = document.getElementById('productFileInput');
@@ -653,7 +690,6 @@
       }
     }
 
-    // Process image file to Vercel Blob / Data URL fallback
     function processProductImageFile(file) {
       const reader = new FileReader();
       reader.onload = function(e) {
@@ -666,7 +702,7 @@
           previewImg.src = dataUrl;
           previewWrap.style.display = 'block';
         }
-        if (window.showToast) window.showToast('📷 썸네일 이미지가 성공적으로 로드되었습니다!', 'success');
+        if (window.showToast) window.showToast('📷 썸네일 이미지가 성공적으로 업로드 되었습니다!', 'success');
       };
       reader.readAsDataURL(file);
     }
@@ -710,66 +746,17 @@
       if (window.showToast) window.showToast(`게시글 #${id}이(가) 삭제되었습니다.`, 'info');
     }
 
+    // Register all product handlers on window scope for inline onclick/onsubmit attributes
+    window.openAddProductModal = openAddProductModal;
+    window.openEditProductModal = openEditProductModal;
+    window.closeProductModal = closeProductModal;
+    window.handleProductFormSubmit = handleProductFormSubmit;
+    window.adminDeleteProduct = adminDeleteProduct;
+    window.handleProductFileSelect = handleProductFileSelect;
+
     document.addEventListener('DOMContentLoaded', () => {
       renderAdminDashboard();
       setupDragAndDrop();
-
-      document.querySelectorAll('.admin-nav-item[href^="#"]').forEach(link => {
-        link.addEventListener('click', (e) => {
-          document.querySelectorAll('.admin-nav-item').forEach(item => item.classList.remove('active'));
-          link.classList.add('active');
-          const targetId = link.getAttribute('href').substring(1);
-          const targetEl = document.getElementById(targetId);
-          if (targetEl) {
-            e.preventDefault();
-            targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }
-        });
-      });
-    });
-  </script>
-
-    async function adminDeleteUser(email, userId) {
-      if (!confirm(`'${email}' 회원을 정말 삭제(강퇴)하시겠습니까?`)) return;
-
-      if (window.supabaseClient && userId) {
-        try {
-          await window.supabaseClient.from('profiles').delete().eq('id', userId);
-        } catch (err) {}
-      }
-
-      const users = getUsers();
-      const filtered = users.filter(u => u.email !== email);
-      saveUsers(filtered);
-
-      const current = getCurrentUser();
-      if (current && current.email === email) {
-        setCurrentUser(null);
-      }
-
-      await renderAdminDashboard();
-      if (window.showToast) window.showToast(`'${email}' 회원이 삭제되었습니다.`, 'info');
-    }
-
-    async function adminDeletePost(id) {
-      if (!confirm(`ID #${id} 게시글을 정말 삭제하시겠습니까?`)) return;
-
-      if (window.supabaseClient) {
-        try {
-          await window.supabaseClient.from('posts').delete().eq('id', id);
-        } catch (err) {}
-      }
-
-      const posts = typeof getStoredLocalPosts === 'function' ? getStoredLocalPosts() : [];
-      const filtered = posts.filter(p => p.id !== id);
-      if (typeof savePostsToLocal === 'function') savePostsToLocal(filtered);
-
-      await renderAdminDashboard();
-      if (window.showToast) window.showToast(`게시글 #${id}이(가) 삭제되었습니다.`, 'info');
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-      renderAdminDashboard();
 
       document.querySelectorAll('.admin-nav-item[href^="#"]').forEach(link => {
         link.addEventListener('click', (e) => {
