@@ -291,12 +291,31 @@
   </div>
 
   <!-- JS SCRIPTS -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabaseClient.js"></script>
   <script src="js/auth.js"></script>
   <script src="js/community.js"></script>
   <script>
-    function renderAdminDashboard() {
-      // Render Users
-      const users = getUsers();
+    async function renderAdminDashboard() {
+      // Render Users from Supabase profiles / local fallback
+      let users = getUsers();
+      if (window.supabaseClient) {
+        try {
+          const { data, error } = await window.supabaseClient.from('profiles').select('*');
+          if (!error && Array.isArray(data) && data.length > 0) {
+            users = data.map(p => ({
+              id: p.id,
+              name: p.nickname || p.name || '유저',
+              email: p.email,
+              role: p.role || 'user',
+              created_at: p.created_at ? p.created_at.split('T')[0] : '2026-07-26'
+            }));
+          }
+        } catch (err) {
+          console.warn('Supabase admin fetch profiles error:', err);
+        }
+      }
+
       const userCountEl = document.getElementById('adminUserCountVal');
       if (userCountEl) userCountEl.textContent = users.length + ' 명';
 
@@ -317,7 +336,7 @@
               ${u.role === 'admin' ? `
                 <span style="color: #64748b; font-size: 0.8rem;">보호됨</span>
               ` : `
-                <button onclick="adminDeleteUser('${u.email}')" style="background: rgba(239, 68, 68, 0.2); border: 1px solid rgba(239, 68, 68, 0.4); color: #ef4444; padding: 4px 10px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: 600;">
+                <button onclick="adminDeleteUser('${u.email}', '${u.id || ''}')" style="background: rgba(239, 68, 68, 0.2); border: 1px solid rgba(239, 68, 68, 0.4); color: #ef4444; padding: 4px 10px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: 600;">
                   <i class="fa-solid fa-user-xmark"></i> 삭제
                 </button>
               `}
@@ -326,8 +345,8 @@
         `).join('');
       }
 
-      // Render Posts Moderation
-      const posts = getStoredPosts();
+      // Render Posts Moderation from Supabase / local fallback
+      let posts = typeof fetchPosts === 'function' ? await fetchPosts() : [];
       const postCountEl = document.getElementById('adminPostCountVal');
       if (postCountEl) postCountEl.textContent = posts.length + ' 개';
 
@@ -338,7 +357,7 @@
             <td style="padding: 12px 16px; text-align: center; color: #64748b;">${p.id}</td>
             <td style="padding: 12px 16px; text-align: center;"><span class="badge-cat">${p.category}</span></td>
             <td style="padding: 12px 16px; font-weight: 600; color: #ffffff;">${p.title}</td>
-            <td style="padding: 12px 16px; color: #94a3b8;">${p.author || '익명'}</td>
+            <td style="padding: 12px 16px; color: #94a3b8;">${p.author_name || p.author || '익명'}</td>
             <td style="padding: 12px 16px; text-align: center; color: #64748b; font-size: 0.85rem;">👁️ ${p.views || 0} / ❤️ ${p.likes || 0}</td>
             <td style="padding: 12px 16px; text-align: center;">
               <button onclick="adminDeletePost(${p.id})" style="background: rgba(239,68,68,0.2); border: 1px solid rgba(239,68,68,0.4); color: #ef4444; padding: 4px 10px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: 600;">
@@ -350,27 +369,42 @@
       }
     }
 
-    function adminDeleteUser(email) {
+    async function adminDeleteUser(email, userId) {
       if (!confirm(`'${email}' 회원을 정말 삭제(강퇴)하시겠습니까?`)) return;
+
+      if (window.supabaseClient && userId) {
+        try {
+          await window.supabaseClient.from('profiles').delete().eq('id', userId);
+        } catch (err) {}
+      }
+
       const users = getUsers();
       const filtered = users.filter(u => u.email !== email);
       saveUsers(filtered);
-      
+
       const current = getCurrentUser();
       if (current && current.email === email) {
         setCurrentUser(null);
       }
-      
-      renderAdminDashboard();
+
+      await renderAdminDashboard();
       if (window.showToast) window.showToast(`'${email}' 회원이 삭제되었습니다.`, 'info');
     }
 
-    function adminDeletePost(id) {
+    async function adminDeletePost(id) {
       if (!confirm(`ID #${id} 게시글을 정말 삭제하시겠습니까?`)) return;
-      const posts = getStoredPosts();
+
+      if (window.supabaseClient) {
+        try {
+          await window.supabaseClient.from('posts').delete().eq('id', id);
+        } catch (err) {}
+      }
+
+      const posts = typeof getStoredLocalPosts === 'function' ? getStoredLocalPosts() : [];
       const filtered = posts.filter(p => p.id !== id);
-      savePosts(filtered);
-      renderAdminDashboard();
+      if (typeof savePostsToLocal === 'function') savePostsToLocal(filtered);
+
+      await renderAdminDashboard();
       if (window.showToast) window.showToast(`게시글 #${id}이(가) 삭제되었습니다.`, 'info');
     }
 

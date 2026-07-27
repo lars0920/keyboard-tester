@@ -1,16 +1,17 @@
 /* ==========================================================================
-   AURA 75 - AUTHENTICATION & USER SESSION ENGINE
-   Handles Split-Layout Auth Modal (Login/Signup), LocalStorage Persistence,
-   Social Auth Simulation, and Admin Role Management.
+   AURA 75 - AUTHENTICATION & USER SESSION ENGINE (SUPABASE ENABLED)
+   Handles Split-Layout Auth Modal (Login/Signup), Supabase Auth Integration,
+   LocalStorage Fallback, Social OAuth, and Admin Role Management.
    ========================================================================== */
 
 const USERS_STORAGE_KEY = 'aura_users_v1';
 const SESSION_STORAGE_KEY = 'aura_current_user_v1';
 
-// Initial Default Users (Includes Admin User)
+// Initial Default Users (Includes Admin User Fallback)
 function getInitialUsers() {
   return [
     {
+      id: 'admin-id',
       email: 'admin@aura75.com',
       password: 'admin1234',
       name: '최고관리자',
@@ -18,6 +19,7 @@ function getInitialUsers() {
       created_at: '2026-07-01'
     },
     {
+      id: 'user-id',
       email: 'user@aura75.com',
       password: 'user1234',
       name: '김키보드',
@@ -27,7 +29,7 @@ function getInitialUsers() {
   ];
 }
 
-// 1. Storage Helpers
+// 1. Storage & Session Helpers
 function getUsers() {
   try {
     const data = localStorage.getItem(USERS_STORAGE_KEY);
@@ -55,6 +57,33 @@ function setCurrentUser(user) {
     localStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(user));
   } else {
     localStorage.removeItem(SESSION_STORAGE_KEY);
+  }
+}
+
+// Sync session with Supabase auth status on initialization
+async function syncSupabaseSession() {
+  if (!window.supabaseClient) return;
+
+  try {
+    const { data: { session } } = await window.supabaseClient.auth.getSession();
+    if (session && session.user) {
+      const user = session.user;
+      const userMeta = user.user_metadata || {};
+      const nickname = userMeta.nickname || userMeta.full_name || user.email.split('@')[0];
+      const role = user.email === 'admin@aura75.com' ? 'admin' : (userMeta.role || 'user');
+
+      const appUser = {
+        id: user.id,
+        email: user.email,
+        name: nickname,
+        role: role,
+        created_at: user.created_at ? user.created_at.split('T')[0] : new Date().toISOString().split('T')[0]
+      };
+      setCurrentUser(appUser);
+      updateHeaderAuthUI();
+    }
+  } catch (err) {
+    console.warn('Supabase session sync warning:', err);
   }
 }
 
@@ -91,8 +120,8 @@ function switchAuthTab(tab) {
   }
 }
 
-// 3. Login Submission
-function handleLoginSubmit(e) {
+// 3. Login Submission (Supabase + Local Fallback)
+async function handleLoginSubmit(e) {
   e.preventDefault();
   const email = document.getElementById('loginEmail').value.trim();
   const password = document.getElementById('loginPassword').value.trim();
@@ -102,6 +131,40 @@ function handleLoginSubmit(e) {
     return;
   }
 
+  // Attempt Supabase Auth Login
+  if (window.supabaseClient) {
+    try {
+      const { data, error } = await window.supabaseClient.auth.signInWithPassword({ email, password });
+      if (!error && data.user) {
+        const user = data.user;
+        const meta = user.user_metadata || {};
+        const nickname = meta.nickname || meta.full_name || email.split('@')[0];
+        const role = email === 'admin@aura75.com' ? 'admin' : (meta.role || 'user');
+
+        const appUser = {
+          id: user.id,
+          email: user.email,
+          name: nickname,
+          role: role,
+          created_at: user.created_at ? user.created_at.split('T')[0] : new Date().toISOString().split('T')[0]
+        };
+
+        setCurrentUser(appUser);
+        closeAuthModal();
+        updateHeaderAuthUI();
+
+        if (window.showToast) window.showToast(`${appUser.name}님, 반갑습니다! Supabase 로그인 성공.`, 'success');
+        if (role === 'admin' && window.location.pathname.includes('admin')) {
+          window.location.reload();
+        }
+        return;
+      }
+    } catch (err) {
+      console.warn('Supabase login attempt error:', err);
+    }
+  }
+
+  // Fallback to Local Storage Users
   const users = getUsers();
   const found = users.find(u => u.email === email && u.password === password);
 
@@ -123,8 +186,8 @@ function handleLoginSubmit(e) {
   }
 }
 
-// 4. Signup Submission
-function handleSignupSubmit(e) {
+// 4. Signup Submission (Supabase Auth + Local Fallback)
+async function handleSignupSubmit(e) {
   e.preventDefault();
   const name = document.getElementById('signupName').value.trim();
   const email = document.getElementById('signupEmail').value.trim();
@@ -147,6 +210,49 @@ function handleSignupSubmit(e) {
     return;
   }
 
+  const role = email === 'admin@aura75.com' ? 'admin' : 'user';
+
+  // Supabase Signup Attempt
+  if (window.supabaseClient) {
+    try {
+      const { data, error } = await window.supabaseClient.auth.signUp({
+        email: email,
+        password: password,
+        options: {
+          data: { nickname: name, role: role }
+        }
+      });
+
+      if (!error && data.user) {
+        // Insert profile into public.profiles
+        await window.supabaseClient.from('profiles').insert([{
+          id: data.user.id,
+          email: email,
+          nickname: name,
+          role: role
+        }]);
+
+        const appUser = {
+          id: data.user.id,
+          email: email,
+          name: name,
+          role: role,
+          created_at: new Date().toISOString().split('T')[0]
+        };
+
+        setCurrentUser(appUser);
+        closeAuthModal();
+        updateHeaderAuthUI();
+
+        if (window.showToast) window.showToast(`회원가입이 완료되었습니다! 환영합니다, ${name}님.`, 'success');
+        return;
+      }
+    } catch (err) {
+      console.warn('Supabase signup attempt error:', err);
+    }
+  }
+
+  // Local Storage Fallback
   const users = getUsers();
   if (users.some(u => u.email === email)) {
     if (window.showToast) window.showToast('이미 등록된 이메일 주소입니다.', 'error');
@@ -154,17 +260,17 @@ function handleSignupSubmit(e) {
   }
 
   const newUser = {
+    id: 'user-' + Date.now(),
     name,
     email,
     password,
-    role: 'user',
+    role: role,
     created_at: new Date().toISOString().split('T')[0]
   };
 
   users.push(newUser);
   saveUsers(users);
 
-  // Auto Login
   setCurrentUser(newUser);
   closeAuthModal();
   updateHeaderAuthUI();
@@ -174,9 +280,25 @@ function handleSignupSubmit(e) {
   }
 }
 
-// 5. Social Login Simulation
-function handleSocialLogin(provider) {
+// 5. Social Login Simulation / OAuth Trigger
+async function handleSocialLogin(provider) {
+  if (window.supabaseClient) {
+    try {
+      const { error } = await window.supabaseClient.auth.signInWithOAuth({
+        provider: provider === 'google' ? 'google' : 'kakao',
+        options: {
+          redirectTo: window.location.origin
+        }
+      });
+      if (!error) return;
+    } catch (err) {
+      console.warn('Supabase OAuth error:', err);
+    }
+  }
+
+  // Simulation Fallback
   const mockUser = {
+    id: 'social-' + Date.now(),
     name: provider === 'google' ? '구글 사용자' : '카카오 사용자',
     email: provider === 'google' ? 'user@gmail.com' : 'user@kakao.com',
     password: 'social_login',
@@ -194,7 +316,12 @@ function handleSocialLogin(provider) {
 }
 
 // 6. Logout
-function handleLogout() {
+async function handleLogout() {
+  if (window.supabaseClient) {
+    try {
+      await window.supabaseClient.auth.signOut();
+    } catch (err) {}
+  }
   setCurrentUser(null);
   updateHeaderAuthUI();
   if (window.showToast) {
@@ -220,7 +347,7 @@ function updateHeaderAuthUI() {
 
     authContainer.innerHTML = `
       <div class="user-profile-badge">
-        <div class="user-avatar">${user.name.charAt(0)}</div>
+        <div class="user-avatar">${(user.name || '유').charAt(0)}</div>
         <span class="user-name">${user.name} 님</span>
         ${adminLink}
         <button onclick="handleLogout()" class="btn-auth-logout" title="로그아웃"><i class="fa-solid fa-right-from-bracket"></i></button>
@@ -243,8 +370,13 @@ window.handleLoginSubmit = handleLoginSubmit;
 window.handleSignupSubmit = handleSignupSubmit;
 window.handleSocialLogin = handleSocialLogin;
 window.handleLogout = handleLogout;
+window.getCurrentUser = getCurrentUser;
+window.getUsers = getUsers;
+window.saveUsers = saveUsers;
+window.setCurrentUser = setCurrentUser;
 
 document.addEventListener('DOMContentLoaded', () => {
   getUsers();
+  syncSupabaseSession();
   updateHeaderAuthUI();
 });
