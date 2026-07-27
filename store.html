@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AURA 75 | 커스텀 키보드 공식 스토어</title>
+  <meta name="description" content="AURA 75 커스텀 기계식 키보드 공식 스토어. 풀 알루미늄 하우징, 커스텀 스위치, 황동 보강판 및 흡음재 튜닝 키트 판매.">
+
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/styles.css">
+
+  <!-- INLINE CUSTOM STORE & CHECKOUT STYLES -->
+  <style>
+    body {
+      background-color: #0b0f17 !important;
+      color: #f8fafc !important;
+      margin: 0 !important;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+    }
+
+    .minimal-header {
+      position: sticky !important;
+      top: 0 !important;
+      z-index: 100 !important;
+      background: rgba(15, 23, 42, 0.95) !important;
+      backdrop-filter: blur(16px) !important;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+      padding: 14px 20px !important;
+    }
+
+    .header-container {
+      max-width: 1280px !important;
+      margin: 0 auto !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+    }
+
+    .community-nav-bar {
+      display: flex !important;
+      align-items: center !important;
+      gap: 12px !important;
+    }
+
+    .community-nav-bar .nav-item {
+      color: #94a3b8 !important;
+      text-decoration: none !important;
+      font-size: 0.9rem !important;
+      font-weight: 500 !important;
+      padding: 8px 14px !important;
+      border-radius: 8px !important;
+      transition: all 0.2s ease !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 6px !important;
+    }
+
+    .community-nav-bar .nav-item:hover,
+    .community-nav-bar .nav-item.active {
+      color: #10b981 !important;
+      background: rgba(16, 185, 129, 0.12) !important;
+    }
+
+    /* STORE HERO SECTION */
+    .store-hero-section {
+      padding: 50px 20px 40px !important;
+      background: radial-gradient(circle at 50% 0%, rgba(16, 185, 129, 0.18) 0%, #0b0f17 75%) !important;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+      text-align: center !important;
+    }
+
+    .store-hero-title {
+      font-family: 'Outfit', sans-serif !important;
+      font-size: 2.6rem !important;
+      font-weight: 800 !important;
+      color: #ffffff !important;
+      margin: 0 0 12px !important;
+    }
+
+    .store-hero-subtitle {
+      color: #94a3b8 !important;
+      font-size: 1.05rem !important;
+      max-width: 650px !important;
+      margin: 0 auto 30px !important;
+      line-height: 1.6 !important;
+    }
+
+    /* PRODUCT GRID & CARDS */
+    .store-main-section {
+      padding: 40px 20px 80px !important;
+      max-width: 1280px !important;
+      margin: 0 auto !important;
+    }
+
+    .store-toolbar {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      gap: 20px !important;
+      margin-bottom: 32px !important;
+      flex-wrap: wrap !important;
+    }
+
+    .store-cat-tabs {
+      display: flex !important;
+      gap: 8px !important;
+      flex-wrap: wrap !important;
+    }
+
+    .store-cat-tab {
+      background: #1e293b !important;
+      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+      color: #94a3b8 !important;
+      padding: 9px 18px !important;
+      border-radius: 30px !important;
+      font-size: 0.88rem !important;
+      font-weight: 600 !important;
+      cursor: pointer !important;
+      transition: all 0.2s ease !important;
+    }
+
+    .store-cat-tab:hover {
+      color: #ffffff !important;
+      background: rgba(255, 255, 255, 0.1) !important;
+    }
+
+    .store-cat-tab.active {
+      background: #10b981 !important;
+      border-color: #10b981 !important;
+      color: #000000 !important;
+      font-weight: 800 !important;
+      box-shadow: 0 0 16px rgba(16, 185, 129, 0.4) !important;
+    }
+
+    .product-grid {
+      display: grid !important;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)) !important;
+      gap: 28px !important;
+    }
+
+    .product-card {
+      background: #111520 !important;
+      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+      border-radius: 20px !important;
+      overflow: hidden !important;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5) !important;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+      display: flex !important;
+      flex-direction: column !important;
+    }
+
+    .product-card:hover {
+      transform: translateY(-6px) !important;
+      border-color: rgba(16, 185, 129, 0.4) !important;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 30px rgba(16, 185, 129, 0.15) !important;
+    }
+
+    .product-thumb-wrap {
+      position: relative !important;
+      width: 100% !important;
+      height: 230px !important;
+      overflow: hidden !important;
+      background: #0f172a !important;
+    }
+
+    .product-thumb-img {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      transition: transform 0.4s ease !important;
+    }
+
+    .product-card:hover .product-thumb-img {
+      transform: scale(1.05) !important;
+    }
+
+    .product-badge {
+      position: absolute !important;
+      top: 14px !important;
+      left: 14px !important;
+      background: #10b981 !important;
+      color: #000000 !important;
+      font-size: 0.75rem !important;
+      font-weight: 800 !important;
+      padding: 4px 10px !important;
+      border-radius: 20px !important;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4) !important;
+    }
+
+    .product-thumb-overlay {
+      position: absolute !important;
+      inset: 0 !important;
+      background: rgba(15, 23, 42, 0.6) !important;
+      backdrop-filter: blur(4px) !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      opacity: 0 !important;
+      transition: opacity 0.25s ease !important;
+    }
+
+    .product-card:hover .product-thumb-overlay {
+      opacity: 1 !important;
+    }
+
+    .btn-quick-buy {
+      background: #10b981 !important;
+      color: #000000 !important;
+      border: none !important;
+      padding: 10px 22px !important;
+      border-radius: 24px !important;
+      font-weight: 800 !important;
+      font-size: 0.88rem !important;
+      cursor: pointer !important;
+      box-shadow: 0 4px 16px rgba(16, 185, 129, 0.4) !important;
+    }
+
+    .product-body {
+      padding: 22px !important;
+      display: flex !important;
+      flex-direction: column !important;
+      flex: 1 !important;
+    }
+
+    .product-meta {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      margin-bottom: 10px !important;
+    }
+
+    .product-category-tag {
+      font-size: 0.78rem !important;
+      color: #38bdf8 !important;
+      background: rgba(56, 189, 248, 0.12) !important;
+      padding: 3px 10px !important;
+      border-radius: 12px !important;
+      font-weight: 600 !important;
+    }
+
+    .product-rating {
+      font-size: 0.82rem !important;
+      color: #f59e0b !important;
+      font-weight: 700 !important;
+    }
+
+    .product-name {
+      font-family: 'Outfit', sans-serif !important;
+      font-size: 1.18rem !important;
+      font-weight: 700 !important;
+      color: #ffffff !important;
+      margin: 0 0 8px !important;
+      line-height: 1.35 !important;
+    }
+
+    .product-desc {
+      font-size: 0.85rem !important;
+      color: #94a3b8 !important;
+      line-height: 1.5 !important;
+      margin: 0 0 20px !important;
+      display: -webkit-box !important;
+      -webkit-line-clamp: 2 !important;
+      -webkit-box-orient: vertical !important;
+      overflow: hidden !important;
+    }
+
+    .product-footer {
+      margin-top: auto !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      padding-top: 14px !important;
+      border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+    }
+
+    .product-price-box {
+      display: flex !important;
+      flex-direction: column !important;
+    }
+
+    .product-original-price {
+      font-size: 0.8rem !important;
+      color: #64748b !important;
+      text-decoration: line-through !important;
+    }
+
+    .product-price {
+      font-family: 'Outfit', sans-serif !important;
+      font-size: 1.35rem !important;
+      font-weight: 800 !important;
+      color: #10b981 !important;
+    }
+
+    .btn-cart-buy {
+      background: rgba(16, 185, 129, 0.15) !important;
+      border: 1px solid rgba(16, 185, 129, 0.3) !important;
+      color: #10b981 !important;
+      padding: 8px 16px !important;
+      border-radius: 12px !important;
+      font-size: 0.85rem !important;
+      font-weight: 700 !important;
+      cursor: pointer !important;
+      transition: all 0.2s ease !important;
+    }
+
+    .btn-cart-buy:hover {
+      background: #10b981 !important;
+      color: #000000 !important;
+    }
+
+    /* FRONTEND CHECKOUT MODAL */
+    .checkout-modal-card {
+      background: #0f172a !important;
+      border: 1px solid rgba(16, 185, 129, 0.35) !important;
+      border-radius: 24px !important;
+      padding: 32px !important;
+      max-width: 540px !important;
+      width: 90% !important;
+      box-shadow: 0 25px 80px rgba(0, 0, 0, 0.9), 0 0 40px rgba(16, 185, 129, 0.2) !important;
+    }
+
+    .checkout-order-summary {
+      background: rgba(30, 41, 59, 0.6) !important;
+      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+      border-radius: 14px !important;
+      padding: 18px !important;
+      margin: 18px 0 24px !important;
+    }
+  </style>
+</head>
+<body class="dark-mode">
+
+  <!-- TOP ANNOUNCEMENT BAR -->
+  <div class="top-announcement">
+    <div class="announcement-content">
+      <span class="badge-flash"><i class="fa-solid fa-store"></i> OFFICIAL STORE</span>
+      <span class="announcement-text">AURA 75 하이엔드 키보드 & 커스텀 부품 공식 스토어 | <strong>전 제품 무료배송 혜택</strong></span>
+    </div>
+  </div>
+
+  <!-- MAIN HEADER -->
+  <header class="minimal-header">
+    <div class="header-container">
+      <a href="index.html" class="brand-logo" style="text-decoration:none;">
+        <span class="logo-mark">⚡</span>
+        <span class="logo-text">AURA <span>75</span></span>
+        <span class="logo-tag">STORE</span>
+      </a>
+
+      <nav class="community-nav-bar">
+        <a href="index.html" class="nav-item"><i class="fa-solid fa-house"></i> 메인 홈</a>
+        <a href="index.html#sound-test" class="nav-item"><i class="fa-solid fa-volume-high"></i> 타건음 체험</a>
+        <a href="index.html#configurator" class="nav-item"><i class="fa-solid fa-sliders"></i> 커스텀 빌더</a>
+        <a href="community.html" class="nav-item"><i class="fa-solid fa-comments"></i> 자유게시판</a>
+        <a href="store.html" class="nav-item active"><i class="fa-solid fa-bag-shopping"></i> 스토어</a>
+      </nav>
+
+      <div class="header-right" style="display: flex; align-items: center; gap: 12px;">
+        <div id="headerAuthContainer">
+          <button onclick="openAuthModal('login')" class="btn-header-auth">
+            <i class="fa-solid fa-user-check"></i> 로그인 / 회원가입
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- STORE HERO SECTION -->
+  <section class="store-hero-section">
+    <div class="section-container">
+      <div class="community-hero-badge" style="margin-left:auto; margin-right:auto;">
+        <span class="pulse-dot"></span> 2026 하이엔드 커스텀 키보드 스토어
+      </div>
+      <h1 class="store-hero-title">
+        당신만의 완벽한 데스크테리어 <br>
+        <span class="text-gradient">AURA 75 정품 하우징 & 튜닝 부품</span>
+      </h1>
+      <p class="store-hero-subtitle">
+        풀 알루미늄 CNC 하우징부터 딥 & 톡키 커스텀 스위치, 황동 보강판까지 최고 수준의 타건감을 직접 경험해 보세요.
+      </p>
+    </div>
+  </section>
+
+  <!-- STORE MAIN SECTION -->
+  <section class="store-main-section">
+    <!-- TOOLBAR: CATEGORIES & SEARCH -->
+    <div class="store-toolbar">
+      <div class="store-cat-tabs">
+        <button class="store-cat-tab active" onclick="filterStoreCategory('all', this)">
+          <i class="fa-solid fa-border-all"></i> 전체 상품
+        </button>
+        <button class="store-cat-tab" onclick="filterStoreCategory('키보드', this)">
+          <i class="fa-solid fa-keyboard"></i> 커스텀 키보드
+        </button>
+        <button class="store-cat-tab" onclick="filterStoreCategory('스위치', this)">
+          <i class="fa-solid fa-microchip"></i> 커스텀 스위치
+        </button>
+        <button class="store-cat-tab" onclick="filterStoreCategory('보강판/흡음재', this)">
+          <i class="fa-solid fa-layer-group"></i> 보강판 & 흡음재
+        </button>
+      </div>
+
+      <div class="board-search-group">
+        <div class="search-input-box">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" placeholder="상품명 또는 설명 검색..." oninput="handleStoreSearch(this.value)">
+        </div>
+        <span id="storeTotalCount" style="color: #94a3b8; font-size: 0.88rem; font-weight: 600;">6개 상품</span>
+      </div>
+    </div>
+
+    <!-- PRODUCT CARDS GRID (SUPABASE DB SYNCED) -->
+    <div class="product-grid" id="storeProductGrid">
+      <!-- Loaded dynamically via js/store.js -->
+    </div>
+  </section>
+
+  <!-- FRONTEND CHECKOUT PAYMENT MODAL (LOGGED IN USER) -->
+  <div class="modal-overlay" id="checkoutModal">
+    <div class="modal-card checkout-modal-card">
+      <button class="btn-modal-close" onclick="closeCheckoutModal()">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div class="modal-header" style="text-align: left;">
+        <h2 style="font-size: 1.5rem; font-weight: 800; color: #ffffff;"><i class="fa-solid fa-credit-card text-emerald"></i> 주문 / 결제하기</h2>
+        <p style="color: #94a3b8; font-size: 0.88rem;">선택하신 상품의 주문 내역 및 배송지 정보를 확인해 주세요.</p>
+      </div>
+
+      <div class="checkout-order-summary">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+          <span style="color: #cbd5e1; font-size: 0.9rem;" id="checkoutItemTitle">AURA 75 미드나잇 블랙</span>
+          <strong style="color: #ffffff;" id="checkoutItemPrice">₩285,000</strong>
+        </div>
+        <div style="display: flex; justify-content: space-between; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 8px; margin-top: 8px;">
+          <span style="color: #10b981; font-weight: 700;">최종 결제 금액</span>
+          <strong style="color: #10b981; font-size: 1.2rem;" id="checkoutItemTotal">₩285,000</strong>
+        </div>
+      </div>
+
+      <form onsubmit="handleCheckoutSubmit(event)">
+        <div class="form-group" style="margin-bottom: 14px;">
+          <label for="checkoutName"><i class="fa-solid fa-user"></i> 주문자 성함</label>
+          <input type="text" id="checkoutName" required readonly style="background: rgba(30,41,59,0.5);">
+        </div>
+
+        <div class="form-group" style="margin-bottom: 14px;">
+          <label for="checkoutEmail"><i class="fa-solid fa-envelope"></i> 주문자 이메일</label>
+          <input type="email" id="checkoutEmail" required readonly style="background: rgba(30,41,59,0.5);">
+        </div>
+
+        <div class="form-group" style="margin-bottom: 20px;">
+          <label for="checkoutAddress"><i class="fa-solid fa-location-dot"></i> 배송지 주소 *</label>
+          <input type="text" id="checkoutAddress" required placeholder="서울특별시 강남구 테헤란로 123">
+        </div>
+
+        <button type="submit" class="btn-primary-glow" style="width: 100%; padding: 14px; border-radius: 12px; font-size: 1rem; font-weight: 800; cursor: pointer;">
+          <i class="fa-solid fa-lock"></i> 안전 결제하기 (시뮬레이션)
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- AUTH SPLIT MODAL (LOGIN / SIGNUP) -->
+  <div class="modal-overlay" id="authModal">
+    <div class="modal-card auth-modal-card">
+      <button class="btn-modal-close" onclick="closeAuthModal()" style="z-index: 10;">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <!-- Left Panel: Media Showcase -->
+      <div class="auth-media-panel">
+        <video class="auth-media-video" autoplay loop muted playsinline src="Happy_Hacking_keyboard_studio_shot_202607222007.mp4"></video>
+        <div class="auth-media-overlay"></div>
+        <div class="auth-media-content">
+          <a href="index.html" class="auth-brand-logo">
+            <span class="logo-mark" style="color: #10b981;">⚡</span>
+            <span>AURA <strong style="color: #10b981;">75</strong></span>
+          </a>
+
+          <div class="auth-media-main-text">
+            <h3>손끝에서 완성되는<br><span>완벽한 타건감 & 음향</span></h3>
+            <p>풀 알루미늄 CNC, 3중 가스켓 가공. 회원가입 후 나만의 커스텀 키보드를 완성해 보세요.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Panel: Form Controls -->
+      <div class="auth-form-panel">
+        <div class="auth-tabs-header">
+          <button class="auth-tab-btn active" id="tabLoginBtn" onclick="switchAuthTab('login')">로그인</button>
+          <button class="auth-tab-btn" id="tabSignupBtn" onclick="switchAuthTab('signup')">회원가입</button>
+        </div>
+
+        <!-- Login Form View -->
+        <form class="auth-form-view" id="loginFormView" onsubmit="handleLoginSubmit(event)">
+          <div class="auth-form-field">
+            <label for="loginEmail"><i class="fa-solid fa-envelope"></i> 이메일 주소</label>
+            <input type="email" id="loginEmail" placeholder="name@company.com" required>
+          </div>
+
+          <div class="auth-form-field">
+            <label for="loginPassword"><i class="fa-solid fa-lock"></i> 비밀번호</label>
+            <input type="password" id="loginPassword" placeholder="••••••••" required>
+          </div>
+
+          <button type="submit" class="btn-primary-glow btn-auth-submit">
+            <span>로그인하기</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </form>
+
+        <!-- Signup Form View -->
+        <form class="auth-form-view" id="signupFormView" onsubmit="handleSignupSubmit(event)" style="display: none;">
+          <div class="auth-form-field">
+            <label for="signupName"><i class="fa-solid fa-user"></i> 이름 / 닉네임</label>
+            <input type="text" id="signupName" placeholder="홍길동" required>
+          </div>
+
+          <div class="auth-form-field">
+            <label for="signupEmail"><i class="fa-solid fa-envelope"></i> 이메일 주소</label>
+            <input type="email" id="signupEmail" placeholder="name@company.com" required>
+          </div>
+
+          <div class="auth-form-field">
+            <label for="signupPassword"><i class="fa-solid fa-lock"></i> 비밀번호</label>
+            <input type="password" id="signupPassword" placeholder="8자리 이상 입력" required minlength="4">
+          </div>
+
+          <div class="auth-form-field">
+            <label for="signupPasswordConfirm"><i class="fa-solid fa-shield-halved"></i> 비밀번호 확인</label>
+            <input type="password" id="signupPasswordConfirm" placeholder="비밀번호 재입력" required minlength="4">
+          </div>
+
+          <label class="auth-checkbox-field">
+            <input type="checkbox" id="signupAgree" checked required>
+            <span>이용약관 및 개인정보 수집 동의 (필수)</span>
+          </label>
+
+          <button type="submit" class="btn-primary-glow btn-auth-submit">
+            <span>회원가입 완료하기</span>
+            <i class="fa-solid fa-user-plus"></i>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- JS SCRIPTS -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabaseClient.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/community.js"></script>
+  <script src="js/store.js"></script>
+</body>
+</html>

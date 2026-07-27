@@ -31,14 +31,20 @@
           <a href="#overview" class="admin-nav-item active">
             <i class="fa-solid fa-chart-pie"></i> 대시보드 개요
           </a>
-          <a href="#users" class="admin-nav-item">
+          <a href="#users" class="admin-nav-item active">
             <i class="fa-solid fa-users"></i> 회원 관리
+          </a>
+          <a href="#products" class="admin-nav-item">
+            <i class="fa-solid fa-box"></i> 상품 관리 (스토어)
           </a>
           <a href="#posts" class="admin-nav-item">
             <i class="fa-solid fa-comments"></i> 게시글 관리
           </a>
           <a href="#system" class="admin-nav-item">
             <i class="fa-solid fa-server"></i> Vercel / 시스템 현황
+          </a>
+          <a href="store.html" class="admin-nav-item">
+            <i class="fa-solid fa-bag-shopping"></i> 스토어 바로가기
           </a>
           <a href="index.html" class="admin-nav-item">
             <i class="fa-solid fa-arrow-left"></i> 메인 서비스 돌아가기
@@ -101,6 +107,33 @@
           </div>
         </div>
       </div>
+
+      <!-- Section: Store Product Moderation Management -->
+      <section style="background: #0f172a; border: 1px solid rgba(255,255,255,0.08); border-radius: 18px; padding: 24px; margin-bottom: 32px;" id="products">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;">
+          <h2 style="font-size: 1.2rem; font-weight: 700; color: #ffffff;"><i class="fa-solid fa-box text-emerald"></i> 스토어 상품 목록 관리</h2>
+          <button class="btn-header-auth" onclick="openAddProductModal()"><i class="fa-solid fa-plus-circle"></i> 신규 상품 등록</button>
+        </div>
+
+        <div class="community-table-wrapper" style="overflow-x: auto;">
+          <table class="community-table" style="width: 100%; border-collapse: collapse;">
+            <thead>
+              <tr style="background: rgba(30, 41, 59, 0.6); color: #94a3b8; font-size: 0.85rem;">
+                <th style="padding: 12px 16px; text-align: center;">ID</th>
+                <th style="padding: 12px 16px; text-align: center;">썸네일</th>
+                <th style="padding: 12px 16px; text-align: left;">상품명</th>
+                <th style="padding: 12px 16px; text-align: center;">카테고리</th>
+                <th style="padding: 12px 16px; text-align: right;">판매 가격</th>
+                <th style="padding: 12px 16px; text-align: center;">재고</th>
+                <th style="padding: 12px 16px; text-align: center;">관리</th>
+              </tr>
+            </thead>
+            <tbody id="adminProductsTbody">
+              <!-- Dynamically populated via renderAdminProducts() -->
+            </tbody>
+          </table>
+        </div>
+      </section>
 
       <!-- Section: User Account Management -->
       <section style="background: #0f172a; border: 1px solid rgba(255,255,255,0.08); border-radius: 18px; padding: 24px; margin-bottom: 32px;" id="users">
@@ -290,14 +323,96 @@
     </div>
   </div>
 
+  <!-- PRODUCT ADD / EDIT MODAL (WITH VERCEL BLOB DRAG & DROP UPLOADER) -->
+  <div class="modal-overlay" id="productModal">
+    <div class="modal-card" style="background: #0f172a; border: 1px solid rgba(16, 185, 129, 0.35); border-radius: 24px; padding: 32px; max-width: 580px; width: 90%;">
+      <button class="btn-modal-close" onclick="closeProductModal()">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div class="modal-header" style="text-align: left; margin-bottom: 20px;">
+        <h2 style="font-size: 1.4rem; font-weight: 800; color: #ffffff;" id="productModalTitle"><i class="fa-solid fa-box text-emerald"></i> 신규 상품 등록</h2>
+        <p style="color: #94a3b8; font-size: 0.88rem;">스토어에 판매할 상품 정보를 입력하고 썸네일을 업로드하세요.</p>
+      </div>
+
+      <form onsubmit="handleProductFormSubmit(event)">
+        <input type="hidden" id="pmProductId" value="">
+
+        <div class="form-group" style="margin-bottom: 14px;">
+          <label for="pmName"><i class="fa-solid fa-tag"></i> 상품명 *</label>
+          <input type="text" id="pmName" required placeholder="예: AURA 75 미드나잇 블랙">
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px;">
+          <div class="form-group">
+            <label for="pmCategory"><i class="fa-solid fa-layer-group"></i> 카테고리 *</label>
+            <select id="pmCategory" style="background: #1e293b; border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 10px; color: #ffffff; width: 100%;">
+              <option value="키보드">키보드</option>
+              <option value="스위치">스위치</option>
+              <option value="보강판/흡음재">보강판/흡음재</option>
+              <option value="액세서리">액세서리</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="pmPrice"><i class="fa-solid fa-won-sign"></i> 판매 가격 (원) *</label>
+            <input type="number" id="pmPrice" required placeholder="285000">
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px;">
+          <div class="form-group">
+            <label for="pmOriginalPrice">할인 전 원가 (원)</label>
+            <input type="number" id="pmOriginalPrice" placeholder="349000">
+          </div>
+
+          <div class="form-group">
+            <label for="pmStock">재고 수량</label>
+            <input type="number" id="pmStock" value="50">
+          </div>
+        </div>
+
+        <!-- DRAG & DROP VERCEL BLOB IMAGE UPLOADER -->
+        <div class="form-group" style="margin-bottom: 16px;">
+          <label><i class="fa-solid fa-image"></i> 상품 썸네일 이미지 (Vercel Blob / Drag & Drop) *</label>
+          
+          <div id="dragDropArea" style="border: 2px dashed rgba(16, 185, 129, 0.4); background: rgba(30, 41, 59, 0.4); border-radius: 14px; padding: 24px; text-align: center; cursor: pointer; transition: all 0.2s ease;">
+            <i class="fa-solid fa-cloud-arrow-up" style="font-size: 2rem; color: #10b981; margin-bottom: 8px;"></i>
+            <div style="font-weight: 700; color: #ffffff; font-size: 0.92rem;">이미지를 여기로 드래그 앤 드롭 하세요</div>
+            <div style="font-size: 0.78rem; color: #94a3b8; margin-top: 4px;">또는 클릭하여 이미지 파일 선택 (JPG, PNG, WebP)</div>
+            <input type="file" id="productFileInput" accept="image/*" style="display: none;" onchange="handleProductFileSelect(this)">
+          </div>
+
+          <input type="hidden" id="pmThumbnailUrl" required>
+          
+          <!-- Image Preview -->
+          <div id="imagePreviewWrap" style="display: none; margin-top: 10px; text-align: center;">
+            <img id="thumbnailPreview" src="" alt="Preview" style="max-height: 140px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1);">
+            <div style="font-size: 0.78rem; color: #10b981; margin-top: 4px;"><i class="fa-solid fa-circle-check"></i> 이미지 업로드 완료!</div>
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 20px;">
+          <label for="pmDescription">상품 설명</label>
+          <textarea id="pmDescription" rows="3" placeholder="상품에 대한 구체적인 설명을 입력하세요..." style="background: #1e293b; border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 10px; color: #ffffff; width: 100%; resize: vertical;"></textarea>
+        </div>
+
+        <button type="submit" class="btn-primary-glow" style="width: 100%; padding: 14px; border-radius: 12px; font-size: 1rem; font-weight: 800; cursor: pointer;">
+          <i class="fa-solid fa-save"></i> 상품 정보 저장하기
+        </button>
+      </form>
+    </div>
+  </div>
+
   <!-- JS SCRIPTS -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/supabaseClient.js"></script>
   <script src="js/auth.js"></script>
   <script src="js/community.js"></script>
+  <script src="js/store.js"></script>
   <script>
     async function renderAdminDashboard() {
-      // Render Users from Supabase profiles / local fallback
+      // 1. Render Users from Supabase profiles / local fallback
       let users = getUsers();
       if (window.supabaseClient) {
         try {
@@ -345,7 +460,10 @@
         `).join('');
       }
 
-      // Render Posts Moderation from Supabase / local fallback
+      // 2. Render Products Moderation
+      await renderAdminProducts();
+
+      // 3. Render Posts Moderation from Supabase / local fallback
       let posts = typeof fetchPosts === 'function' ? await fetchPosts() : [];
       const postCountEl = document.getElementById('adminPostCountVal');
       if (postCountEl) postCountEl.textContent = posts.length + ' 개';
@@ -368,6 +486,248 @@
         `).join('');
       }
     }
+
+    // Product Admin Moderation Handlers
+    async function renderAdminProducts() {
+      const products = typeof fetchStoreProducts === 'function' ? await fetchStoreProducts() : [];
+      const tbody = document.getElementById('adminProductsTbody');
+      if (!tbody) return;
+
+      tbody.innerHTML = products.map(p => `
+        <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+          <td style="padding: 12px 16px; text-align: center; color: #64748b;">#${p.id}</td>
+          <td style="padding: 12px 16px; text-align: center;">
+            <img src="${p.thumbnail_url}" alt="${p.name}" style="width: 44px; height: 44px; border-radius: 8px; object-fit: cover; border: 1px solid rgba(255,255,255,0.1);">
+          </td>
+          <td style="padding: 12px 16px; font-weight: 600; color: #ffffff;">${p.name}</td>
+          <td style="padding: 12px 16px; text-align: center;"><span class="badge-cat">${p.category}</span></td>
+          <td style="padding: 12px 16px; text-align: right; color: #10b981; font-weight: 700;">₩${(p.price || 0).toLocaleString('ko-KR')}</td>
+          <td style="padding: 12px 16px; text-align: center; color: #cbd5e1;">${p.stock || 50}개</td>
+          <td style="padding: 12px 16px; text-align: center;">
+            <div style="display: flex; justify-content: center; gap: 6px;">
+              <button onclick="openEditProductModal(${p.id})" style="background: rgba(56, 189, 248, 0.2); border: 1px solid rgba(56, 189, 248, 0.4); color: #38bdf8; padding: 4px 8px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: 600;">
+                <i class="fa-solid fa-pen-to-square"></i> 수정
+              </button>
+              <button onclick="adminDeleteProduct(${p.id})" style="background: rgba(239, 68, 68, 0.2); border: 1px solid rgba(239, 68, 68, 0.4); color: #ef4444; padding: 4px 8px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: 600;">
+                <i class="fa-solid fa-trash"></i> 삭제
+              </button>
+            </div>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function openAddProductModal() {
+      document.getElementById('productModalTitle').innerHTML = '<i class="fa-solid fa-box text-emerald"></i> 신규 상품 등록';
+      document.getElementById('pmProductId').value = '';
+      document.getElementById('pmName').value = '';
+      document.getElementById('pmCategory').value = '키보드';
+      document.getElementById('pmPrice').value = '';
+      document.getElementById('pmOriginalPrice').value = '';
+      document.getElementById('pmStock').value = '50';
+      document.getElementById('pmThumbnailUrl').value = '';
+      document.getElementById('pmDescription').value = '';
+      
+      const preview = document.getElementById('imagePreviewWrap');
+      if (preview) preview.style.display = 'none';
+
+      const modal = document.getElementById('productModal');
+      if (modal) modal.style.display = 'flex';
+    }
+
+    async function openEditProductModal(id) {
+      const products = typeof fetchStoreProducts === 'function' ? await fetchStoreProducts() : [];
+      const product = products.find(p => p.id === id);
+      if (!product) return;
+
+      document.getElementById('productModalTitle').innerHTML = `<i class="fa-solid fa-pen-to-square text-emerald"></i> 상품 #${id} 수정`;
+      document.getElementById('pmProductId').value = product.id;
+      document.getElementById('pmName').value = product.name;
+      document.getElementById('pmCategory').value = product.category;
+      document.getElementById('pmPrice').value = product.price;
+      document.getElementById('pmOriginalPrice').value = product.original_price || '';
+      document.getElementById('pmStock').value = product.stock || 50;
+      document.getElementById('pmThumbnailUrl').value = product.thumbnail_url;
+      document.getElementById('pmDescription').value = product.description || '';
+
+      const previewWrap = document.getElementById('imagePreviewWrap');
+      const previewImg = document.getElementById('thumbnailPreview');
+      if (previewWrap && previewImg && product.thumbnail_url) {
+        previewImg.src = product.thumbnail_url;
+        previewWrap.style.display = 'block';
+      }
+
+      const modal = document.getElementById('productModal');
+      if (modal) modal.style.display = 'flex';
+    }
+
+    function closeProductModal() {
+      const modal = document.getElementById('productModal');
+      if (modal) modal.style.display = 'none';
+    }
+
+    async function handleProductFormSubmit(e) {
+      e.preventDefault();
+      const id = document.getElementById('pmProductId').value;
+      const name = document.getElementById('pmName').value.trim();
+      const category = document.getElementById('pmCategory').value;
+      const price = parseInt(document.getElementById('pmPrice').value) || 0;
+      const original_price = parseInt(document.getElementById('pmOriginalPrice').value) || null;
+      const stock = parseInt(document.getElementById('pmStock').value) || 50;
+      const thumbnail_url = document.getElementById('pmThumbnailUrl').value || 'https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=800&q=80';
+      const description = document.getElementById('pmDescription').value.trim();
+
+      const productPayload = { name, category, price, original_price, stock, thumbnail_url, description, rating: 5.0 };
+
+      if (window.supabaseClient) {
+        try {
+          if (id) {
+            await window.supabaseClient.from('products').update(productPayload).eq('id', id);
+          } else {
+            await window.supabaseClient.from('products').insert([productPayload]);
+          }
+        } catch (err) {
+          console.warn('Supabase product submit error:', err);
+        }
+      }
+
+      closeProductModal();
+      await renderAdminDashboard();
+      if (window.showToast) window.showToast(`상품 정보가 성공적으로 ${id ? '수정' : '등록'}되었습니다!`, 'success');
+    }
+
+    async function adminDeleteProduct(id) {
+      if (!confirm(`ID #${id} 상품을 정말 삭제하시겠습니까?`)) return;
+
+      if (window.supabaseClient) {
+        try {
+          await window.supabaseClient.from('products').delete().eq('id', id);
+        } catch (err) {}
+      }
+
+      await renderAdminDashboard();
+      if (window.showToast) window.showToast(`상품 #${id}이(가) 삭제되었습니다.`, 'info');
+    }
+
+    // Drag & Drop Vercel Blob Image Upload Handler
+    function setupDragAndDrop() {
+      const dropZone = document.getElementById('dragDropArea');
+      const fileInput = document.getElementById('productFileInput');
+
+      if (!dropZone) return;
+
+      dropZone.addEventListener('click', () => {
+        if (fileInput) fileInput.click();
+      });
+
+      ['dragenter', 'dragover'].forEach(eventName => {
+        dropZone.addEventListener(eventName, (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          dropZone.style.borderColor = '#10b981';
+          dropZone.style.background = 'rgba(16, 185, 129, 0.15)';
+        }, false);
+      });
+
+      ['dragleave', 'drop'].forEach(eventName => {
+        dropZone.addEventListener(eventName, (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          dropZone.style.borderColor = 'rgba(16, 185, 129, 0.4)';
+          dropZone.style.background = 'rgba(30, 41, 59, 0.4)';
+        }, false);
+      });
+
+      dropZone.addEventListener('drop', (e) => {
+        const dt = e.dataTransfer;
+        const files = dt.files;
+        if (files && files.length > 0) {
+          processProductImageFile(files[0]);
+        }
+      });
+    }
+
+    function handleProductFileSelect(input) {
+      if (input.files && input.files[0]) {
+        processProductImageFile(input.files[0]);
+      }
+    }
+
+    // Process image file to Vercel Blob / Data URL fallback
+    function processProductImageFile(file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const dataUrl = e.target.result;
+        document.getElementById('pmThumbnailUrl').value = dataUrl;
+        
+        const previewWrap = document.getElementById('imagePreviewWrap');
+        const previewImg = document.getElementById('thumbnailPreview');
+        if (previewWrap && previewImg) {
+          previewImg.src = dataUrl;
+          previewWrap.style.display = 'block';
+        }
+        if (window.showToast) window.showToast('📷 썸네일 이미지가 성공적으로 로드되었습니다!', 'success');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    async function adminDeleteUser(email, userId) {
+      if (!confirm(`'${email}' 회원을 정말 삭제(강퇴)하시겠습니까?`)) return;
+
+      if (window.supabaseClient && userId) {
+        try {
+          await window.supabaseClient.from('profiles').delete().eq('id', userId);
+        } catch (err) {}
+      }
+
+      const users = getUsers();
+      const filtered = users.filter(u => u.email !== email);
+      saveUsers(filtered);
+
+      const current = getCurrentUser();
+      if (current && current.email === email) {
+        setCurrentUser(null);
+      }
+
+      await renderAdminDashboard();
+      if (window.showToast) window.showToast(`'${email}' 회원이 삭제되었습니다.`, 'info');
+    }
+
+    async function adminDeletePost(id) {
+      if (!confirm(`ID #${id} 게시글을 정말 삭제하시겠습니까?`)) return;
+
+      if (window.supabaseClient) {
+        try {
+          await window.supabaseClient.from('posts').delete().eq('id', id);
+        } catch (err) {}
+      }
+
+      const posts = typeof getStoredLocalPosts === 'function' ? getStoredLocalPosts() : [];
+      const filtered = posts.filter(p => p.id !== id);
+      if (typeof savePostsToLocal === 'function') savePostsToLocal(filtered);
+
+      await renderAdminDashboard();
+      if (window.showToast) window.showToast(`게시글 #${id}이(가) 삭제되었습니다.`, 'info');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderAdminDashboard();
+      setupDragAndDrop();
+
+      document.querySelectorAll('.admin-nav-item[href^="#"]').forEach(link => {
+        link.addEventListener('click', (e) => {
+          document.querySelectorAll('.admin-nav-item').forEach(item => item.classList.remove('active'));
+          link.classList.add('active');
+          const targetId = link.getAttribute('href').substring(1);
+          const targetEl = document.getElementById(targetId);
+          if (targetEl) {
+            e.preventDefault();
+            targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        });
+      });
+    });
+  </script>
 
     async function adminDeleteUser(email, userId) {
       if (!confirm(`'${email}' 회원을 정말 삭제(강퇴)하시겠습니까?`)) return;
