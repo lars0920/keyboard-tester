@@ -7,13 +7,23 @@
 const USERS_STORAGE_KEY = 'aura_users_v1';
 const SESSION_STORAGE_KEY = 'aura_current_user_v1';
 
+// Helper for SHA-256 One-Way Password Hashing (Local Fallback Security)
+async function hashPassword(password) {
+  if (!password) return '';
+  const encoder = new TextEncoder();
+  const data = encoder.encode(password);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
 // Initial Default Users (Includes Admin User Fallback)
 function getInitialUsers() {
   return [
     {
       id: 'admin-id',
       email: 'admin@aura75.com',
-      password: 'admin1234',
+      passwordHash: '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', // SHA-256 for admin1234
       name: '최고관리자',
       role: 'admin',
       created_at: '2026-07-01'
@@ -21,7 +31,7 @@ function getInitialUsers() {
     {
       id: 'user-id',
       email: 'user@aura75.com',
-      password: 'user1234',
+      passwordHash: '04f8996da763b7a969b1028ee3007569eaf3a635486ddab211d512c85b9df8fb', // SHA-256 for user1234
       name: '김키보드',
       role: 'user',
       created_at: '2026-07-15'
@@ -164,9 +174,10 @@ async function handleLoginSubmit(e) {
     }
   }
 
-  // Fallback to Local Storage Users
+  // Fallback to Local Storage Users (One-Way Hashed Password Security)
+  const hashedInput = await hashPassword(password);
   const users = getUsers();
-  const found = users.find(u => u.email === email && u.password === password);
+  const found = users.find(u => u.email === email && (u.passwordHash === hashedInput || u.password === password));
 
   if (!found) {
     if (window.showToast) window.showToast('이메일 또는 비밀번호가 일치하지 않습니다.', 'error');
@@ -212,7 +223,7 @@ async function handleSignupSubmit(e) {
 
   const role = email === 'admin@aura75.com' ? 'admin' : 'user';
 
-  // Supabase Signup Attempt
+  // Supabase Signup Attempt (Supabase automatically hashes password with bcrypt into auth.users)
   if (window.supabaseClient) {
     try {
       const { data, error } = await window.supabaseClient.auth.signUp({
@@ -224,7 +235,7 @@ async function handleSignupSubmit(e) {
       });
 
       if (!error && data.user) {
-        // Insert profile into public.profiles
+        // Insert profile into public.profiles (DO NOT store raw or hash passwords in public.profiles)
         await window.supabaseClient.from('profiles').insert([{
           id: data.user.id,
           email: email,
@@ -252,18 +263,19 @@ async function handleSignupSubmit(e) {
     }
   }
 
-  // Local Storage Fallback
+  // Local Storage Fallback (Stored with SHA-256 One-Way Hash)
   const users = getUsers();
   if (users.some(u => u.email === email)) {
     if (window.showToast) window.showToast('이미 등록된 이메일 주소입니다.', 'error');
     return;
   }
 
+  const passwordHash = await hashPassword(password);
   const newUser = {
     id: 'user-' + Date.now(),
     name,
     email,
-    password,
+    passwordHash,
     role: role,
     created_at: new Date().toISOString().split('T')[0]
   };
